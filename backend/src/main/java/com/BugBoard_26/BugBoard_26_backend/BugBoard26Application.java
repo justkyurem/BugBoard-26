@@ -1,4 +1,4 @@
-package com.BugBoard_26.BugBoard_26;
+package com.BugBoard_26.BugBoard_26_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
