@@ -31,6 +31,9 @@ public class IssueService {
         issue.setDescription(issueDTO.getDescription());
         issue.setPriority(issueDTO.getPriority());
         issue.setStatus(issueDTO.getStatus());
+        issue.setDeadline(issueDTO.getDeadline());
+        issue.setDateResolved(issueDTO.getDateResolved());
+        issue.setImageUrl(issueDTO.getImageUrl());
         issue.setType(issueDTO.getIssueType());
 
         // Se non c'è stato, lo mettiamo in "TODO"
@@ -63,6 +66,10 @@ public class IssueService {
     @Transactional(readOnly = true) // Ottimizza le prestazioni in lettura
     public List<Issue> getAllIssues() {
         return issueRepository.findAll();
+    }
+
+    public List<Issue> searchIssues(String keyword) {
+        return issueRepository.findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword);
     }
 
     // RF - 6: Cambio Stato Issue
