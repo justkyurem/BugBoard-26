@@ -2,10 +2,12 @@ package com.BugBoard_26.BugBoard_26_backend.service;
 
 import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
 import com.BugBoard_26.BugBoard_26_backend.model.Issue;
+import com.BugBoard_26.BugBoard_26_backend.model.Status;
 import com.BugBoard_26.BugBoard_26_backend.model.User;
 import com.BugBoard_26.BugBoard_26_backend.repository.IssueRepository;
 import com.BugBoard_26.BugBoard_26_backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +59,28 @@ public class IssueService {
         return issueRepository.save(issue);
     }
 
+    // RF - 3: Visualizzazione Issue
+    @Transactional(readOnly = true) // Ottimizza le prestazioni in lettura
+    public List<Issue> getAllIssues() {
+        return issueRepository.findAll();
+    }
+
+    // RF - 6: Cambio Stato Issue
+    @Transactional
+    public Issue updateStatus(Long issueId, String newStatus) {
+        // Cerchiamo l'issue
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
+
+        // Proviamo a convertire il nuovo stato
+        try {
+            issue.setStatus(Status.valueOf(newStatus.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Stato non valido: " + newStatus);
+        }
+
+        // Salviamo l'issue
+        return issueRepository.save(issue);
+    }
 
 }
