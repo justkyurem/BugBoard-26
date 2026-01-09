@@ -27,6 +27,9 @@ public class User implements UserDetails { // <--- Implementa UserDetails
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String surname;
+
     @Email
     @NotBlank
     @Column(unique = true, nullable = false)
