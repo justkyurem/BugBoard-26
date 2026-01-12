@@ -1,0 +1,24 @@
+package com.BugBoard_26.BugBoard_26_backend.dto;
+
+import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
+import com.BugBoard_26.BugBoard_26_backend.model.Priority;
+import com.BugBoard_26.BugBoard_26_backend.model.Status;
+
+import lombok.Data;
+
+@Data // Lombok genera automaticamente i metodi getter e setter
+public class IssueDTO {
+
+    private Long id;
+    private String title;
+    private String description;
+    private Priority priority;
+    private Status status;
+    private IssueType issueType;
+
+    // Usiamo solo gli ID per collegare gli utenti,
+    // molto più veloce e semplice che passare interi oggetti User dal frontend
+    private Long assigneeId;
+    private Long reporterId;
+
+}

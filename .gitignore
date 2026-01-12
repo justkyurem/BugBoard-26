@@ -1,0 +1,13 @@
+# JetBrains IDEs (IntelliJ IDEA, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+
+# macOS
+.DS_Store
+
+# Build directories
+target/
+build/
+dist/
+node_modules/
