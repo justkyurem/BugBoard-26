@@ -68,26 +68,37 @@ public class IssueService {
         return issueRepository.findAll();
     }
 
+    // RF - 11: Ricerca Issue
     public List<Issue> searchIssues(String keyword) {
         return issueRepository.findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword);
     }
 
-    // RF - 6: Cambio Stato Issue
+    // RF - 6: Modifica Issue
     @Transactional
-    public Issue updateStatus(Long issueId, String newStatus) {
+    public Issue updateIssue(Long issueId, IssueDTO issueDTO) {
         // Cerchiamo l'issue
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
 
-        // Proviamo a convertire il nuovo stato
-        try {
-            issue.setStatus(Status.valueOf(newStatus.toUpperCase()));
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Stato non valido: " + newStatus);
-        }
+        issue.setTitle(issueDTO.getTitle());
+        issue.setDescription(issueDTO.getDescription());
+        issue.setPriority(issueDTO.getPriority());
+        issue.setStatus(issueDTO.getStatus());
+        issue.setDeadline(issueDTO.getDeadline());
+        issue.setDateResolved(issueDTO.getDateResolved());
+        issue.setImageUrl(issueDTO.getImageUrl());
+        issue.setType(issueDTO.getIssueType());
 
         // Salviamo l'issue
         return issueRepository.save(issue);
+    }
+
+    // Cancellazione
+    public void deleteIssue(Long issueId) {
+        if (!issueRepository.existsById(issueId)) {
+            throw new EntityNotFoundException("Issue non trovata con ID: " + issueId);
+        }
+        issueRepository.deleteById(issueId);
     }
 
 }
