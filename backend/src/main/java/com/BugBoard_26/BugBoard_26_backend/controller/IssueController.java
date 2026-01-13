@@ -1,13 +1,22 @@
 package com.BugBoard_26.BugBoard_26_backend.controller;
 
-import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
-import com.BugBoard_26.BugBoard_26_backend.service.IssueService;
-import com.BugBoard_26.BugBoard_26_backend.model.Issue;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
+import com.BugBoard_26.BugBoard_26_backend.model.Issue;
+import com.BugBoard_26.BugBoard_26_backend.service.IssueService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/issues") // Mappa tutte le richieste sull'url /api/issues
@@ -33,11 +42,11 @@ public class IssueController {
         return ResponseEntity.ok(issueService.createIssue(issueDTO));
     }
 
-    // RF - 6: Cambio stato issue
-    // PUT /api/issues/{id}/status?newStatus={newStatus}
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Issue> updateStatus(@PathVariable Long id, @RequestParam String newStatus) {
-        return ResponseEntity.ok(issueService.updateStatus(id, newStatus));
+    // RF - 6: Aggiorna issue
+    // PUT /api/issues/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<Issue> updateIssue(@PathVariable Long issueId, @RequestBody IssueDTO issueDTO) {
+        return ResponseEntity.ok(issueService.updateIssue(issueId, issueDTO));
     }
 
 }
