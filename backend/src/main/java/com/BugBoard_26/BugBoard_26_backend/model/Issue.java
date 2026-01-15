@@ -42,6 +42,11 @@ public class Issue {
 
     // DATE
     private LocalDateTime dateAdded;
+    private LocalDateTime deadline;
+    private LocalDateTime dateResolved;
+
+    // Image
+    private String imageUrl;
 
     // Metodo chiamato automaticamente PRIMA di salvare nel database
     @PrePersist

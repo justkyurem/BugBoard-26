@@ -1,5 +1,7 @@
 package com.BugBoard_26.BugBoard_26_backend.dto;
 
+import java.time.LocalDateTime;
+
 import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
 import com.BugBoard_26.BugBoard_26_backend.model.Priority;
 import com.BugBoard_26.BugBoard_26_backend.model.Status;
@@ -14,6 +16,9 @@ public class IssueDTO {
     private String description;
     private Priority priority;
     private Status status;
+    private LocalDateTime deadline;
+    private LocalDateTime dateResolved;
+    private String imageUrl;
     private IssueType issueType;
 
     // Usiamo solo gli ID per collegare gli utenti,
