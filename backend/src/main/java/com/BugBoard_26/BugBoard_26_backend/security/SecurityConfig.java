@@ -40,10 +40,10 @@ public class SecurityConfig {
                         // 2. Le porte solo per ADMIN (Gestione Utenti)
                         .requestMatchers("/users/**").hasRole("ADMIN")
                         // 3. Tutto il resto richiede autenticazione
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .sessionManagement(sess -> sess
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Non usare sessioni server, usa solo JWT
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Non usare sessioni server, usa solo
+                                                                                // JWT
                 )
                 .authenticationProvider(authenticationProvider()) // Dice come controllare la password
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Aggiunge il tuo filtro
@@ -69,11 +69,8 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // 1. Crea il provider vuoto
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        // 2. Imposta il servizio che cerca gli utenti
-        authProvider.setUserDetailsService(userDetailsService);
+        // 1. Crea il provider con UserDetailsService (ora richiesto nel costruttore)
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
 
         // 3. Imposta l'algoritmo di crittografia (BCrypt)
         authProvider.setPasswordEncoder(passwordEncoder());
