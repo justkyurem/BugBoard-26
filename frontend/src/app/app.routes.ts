@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { IssueBoardComponent } from './components/issue-board/issue-board.component';
+import { CreateIssueComponent } from './components/create-issue/create-issue.component';
+import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
     {
@@ -7,7 +10,14 @@ export const routes: Routes = [
     },
     {
         path: 'issue-board', component: IssueBoardComponent
+    },
+    {
+        path: 'create-issue', component: CreateIssueComponent
+    },
+    {
+        path: 'login', component: LoginComponent
+    },
+    {
+        path: 'issue/:id', component: IssueDetailComponent
     }
-
-    //
 ];
