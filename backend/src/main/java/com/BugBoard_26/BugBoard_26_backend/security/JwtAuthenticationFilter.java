@@ -44,11 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtUtils.extractUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+            System.out.println("Processing authentication for: " + userEmail);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             if (jwtUtils.isTokenValid(jwt, userDetails)) {
-
+                System.out.println("Token is valid!");
                 // Crea l'oggetto di autenticazione
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -61,7 +61,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 // 6. REGISTRA L'UTENTE COME AUTENTICATO PER QUESTA RICHIESTA
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                 System.out.println("Token is INVALID!");
             }
+        } else {
+             System.out.println("UserEmail null or Context already set. Email: " + userEmail);
         }
 
         // Passa la palla al prossimo filtro della catena
