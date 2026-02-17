@@ -21,8 +21,9 @@ export interface Issue {
     description: string;
     priority: Priority;
     status: Status;
-    issueType: IssueType;
+    type: IssueType;
     deadline?: string;
+    dateAdded?: string;
     dateResolved?: string;
     imageUrl?: string;
     reporterId?: number;
