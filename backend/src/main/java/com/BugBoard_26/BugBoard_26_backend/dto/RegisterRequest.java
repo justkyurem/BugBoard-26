@@ -9,6 +9,9 @@ public class RegisterRequest {
     @NotBlank(message = "Il nome è obbligatorio")
     private String name;
 
+    @NotBlank(message = "Il cognome è obbligatorio")
+    private String surname;
+
     @NotBlank(message = "L'email è obbligatoria")
     @Email(message = "Formato email non valido")
     private String email;
@@ -19,7 +22,8 @@ public class RegisterRequest {
     private Role role;
 
     // --- COSTRUTTORI ---
-    public RegisterRequest() {}
+    public RegisterRequest() {
+    }
 
     public RegisterRequest(String name, String email, String password, Role role) {
         this.name = name;
@@ -35,6 +39,14 @@ public class RegisterRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
