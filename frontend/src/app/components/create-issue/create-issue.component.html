@@ -1,0 +1,43 @@
+<div class="create-container">
+    <h1>Nuova Segnalazione</h1>
+
+    <form (ngSubmit)="onSubmit()" #issueForm="ngForm">
+
+        <!-- Titolo -->
+        <div class="form-group">
+            <label>Titolo</label>
+            <input type="text" [(ngModel)]="issue.title" name="title" required placeholder="Es. Errore nel login">
+        </div>
+
+        <!-- Descrizione -->
+        <div class="form-group">
+            <label>Descrizione</label>
+            <textarea [(ngModel)]="issue.description" name="description" rows="4" required
+                placeholder="Dettagli del problema..."></textarea>
+        </div>
+
+        <!-- Priorità & Tipo -->
+        <div class="row">
+            <div class="form-group">
+                <label>Priorità</label>
+                <select [(ngModel)]="issue.priority" name="priority">
+                    <option *ngFor="let p of priorities" [value]="p">{{ p }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo</label>
+                <select [(ngModel)]="issue.type" name="type">
+                    <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Pulsanti -->
+        <div class="actions">
+            <button type="button" routerLink="/" class="btn-cancel">Annulla</button>
+            <button type="submit" class="btn-submit" [disabled]="!issueForm.form.valid">Crea Ticket</button>
+        </div>
+
+    </form>
+</div>
