@@ -1,0 +1,62 @@
+<div class="detail-container">
+    <div *ngIf="loading" class="loading-state">
+        Caricamento in corso...
+    </div>
+
+    <div *ngIf="error" class="error-state">
+        {{ error }}
+        <button routerLink="/issue-board" class="btn-back">Torna alla Dashboard</button>
+    </div>
+
+    <div *ngIf="issue" class="issue-content">
+        <div class="header-actions">
+            <button routerLink="/issue-board" class="btn-back">← Torna alla Board</button>
+            <div class="actions">
+                <button class="btn-edit" [routerLink]="['/edit', issue.id]">Modifica</button>
+            </div>
+        </div>
+
+        <div class="issue-header">
+            <span class="issue-id">#{{ issue.id }}</span>
+            <h1>{{ issue.title }}</h1>
+        </div>
+
+        <div class="meta-badges">
+            <span class="badge" [ngClass]="getStatusClass(issue.status)">{{ issue.status }}</span>
+            <span class="badge" [ngClass]="getPriorityClass(issue.priority)">{{ issue.priority }}</span>
+            <span class="type-badge">{{ issue.type }}</span>
+        </div>
+
+        <div class="issue-body">
+            <div class="main-info">
+                <h3>Descrizione</h3>
+                <p class="description">{{ issue.description }}</p>
+
+                <div *ngIf="issue.imageUrl" class="attachment-section">
+                    <h3>Allegati</h3>
+                    <img [src]="issue.imageUrl" alt="Allegato Issue" class="issue-image">
+                </div>
+            </div>
+
+            <div class="side-info">
+                <div class="info-group">
+                    <label>Assegnato a</label>
+                    <span>{{ issue.assigneeId ? ('Utente ' + issue.assigneeId) : 'Non assegnato' }}</span>
+                </div>
+                <div class="info-group">
+                    <label>Segnalato da</label>
+                    <span>{{ issue.reporterId ? ('Utente ' + issue.reporterId) : 'Anonimo' }}</span>
+                </div>
+                <div class="info-group">
+                    <label>Scadenza</label>
+                    <span [class.overdue]="false">{{ issue.deadline ? (issue.deadline | date:'medium') : 'Nessuna
+                        scadenza' }}</span>
+                </div>
+                <div class="info-group">
+                    <label>Creato il</label>
+                    <span>{{ issue.dateAdded | date:'medium' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
