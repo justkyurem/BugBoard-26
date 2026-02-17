@@ -3,6 +3,8 @@ import { IssueBoardComponent } from './components/issue-board/issue-board.compon
 import { CreateIssueComponent } from './components/create-issue/create-issue.component';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { LoginComponent } from './components/login/login.component';
+import { AdminGuard } from './guards/admin.guard';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 
 export const routes: Routes = [
     {
@@ -19,5 +21,8 @@ export const routes: Routes = [
     },
     {
         path: 'issue/:id', component: IssueDetailComponent
+    },
+    {
+        path: 'user', component: UserManagementComponent, canActivate: [AdminGuard]
     }
 ];

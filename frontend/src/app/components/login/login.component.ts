@@ -26,7 +26,7 @@ export class LoginComponent {
     this.errorMessage = '';
 
     // Nota: L'URL dovrebbe essere in un environment file, ma per ora va bene così
-    this.http.post<any>('http://localhost:8080/auth/login', this.loginData)
+    this.http.post<any>('http://localhost:8080/api/auth/login', this.loginData)
       .subscribe({
         next: (response) => {
           // Salviamo il token (lo useremo dopo per le chiamate autenticate)
