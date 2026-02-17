@@ -13,6 +13,25 @@
     margin-bottom: 24px;
 }
 
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-logout {
+    background-color: #cbd5e1;
+    color: #334155;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-logout:hover {
+    background-color: #94a3b8;
+}
+
 .board-header h1 {
     font-size: 24px;
     color: #1f2937;
@@ -144,4 +163,15 @@
 .status-resolved {
     background-color: #dcfce7;
     color: #166534;
+}
+
+.title-link {
+    color: #111827;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.title-link:hover {
+    text-decoration: underline;
+    color: #2563eb;
 }

@@ -1,7 +1,10 @@
 <div class="board-container">
     <div class="board-header">
         <h1>Issue Board</h1>
-        <button routerLink="/create" class="btn-create">+ Nuova Issue</button>
+        <div class="actions">
+            <button (click)="logout()" class="btn-logout">Logout</button>
+            <button routerLink="/create-issue" class="btn-create">+ Nuova Issue</button>
+        </div>
     </div>
     <div class="table-wrapper">
         <table class="issue-table">
@@ -18,7 +21,9 @@
                 <tr *ngFor="let issue of issues">
                     <td class="col-id">#{{ issue.id }}</td>
                     <td class="col-title">
-                        <div class="issue-title">{{ issue.title }}</div>
+                        <div class="issue-title">
+                            <a [routerLink]="['/issue', issue.id]" class="title-link">{{ issue.title }}</a>
+                        </div>
                         <div class="issue-desc">{{ issue.description }}</div>
                     </td>
                     <td>

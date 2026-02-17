@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
 import { Issue, Status, Priority } from '../../models/issue.model';
 @Component({
@@ -13,13 +13,25 @@ import { Issue, Status, Priority } from '../../models/issue.model';
 export class IssueBoardComponent implements OnInit {
   issues: Issue[] = [];
   status = Status;
-  constructor(private issueService: IssueService) { }
+  constructor(
+    private issueService: IssueService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
   ngOnInit(): void {
     this.loadIssues();
   }
   loadIssues(): void {
     this.issueService.getAllIssues().subscribe({
-      next: (data) => this.issues = data,
+      next: (data) => {
+        this.issues = data;
+        this.cdr.detectChanges(); // Manually trigger change detection
+      },
       error: (err) => console.error('Error:', err)
     });
   }
