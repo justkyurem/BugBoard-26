@@ -32,7 +32,8 @@ public class IssueController {
     // GET /api/issues
     @GetMapping
     public ResponseEntity<List<Issue>> getAllIssues() {
-        return ResponseEntity.ok(issueService.getAllIssues());
+        List<Issue> issues = issueService.getAllIssues();
+        return ResponseEntity.ok(issues);
     }
 
     // RF - 2: Creazione issue
@@ -59,7 +60,7 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
-    //RF - 11: Ricerca issue
+    // RF - 11: Ricerca issue
     // GET /api/issues/search/keyword=...
     @GetMapping("/search")
     public ResponseEntity<List<Issue>> searchIssues(@RequestParam String keyword) {

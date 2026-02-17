@@ -34,7 +34,7 @@ public class IssueService {
         issue.setDeadline(issueDTO.getDeadline());
         issue.setDateResolved(issueDTO.getDateResolved());
         issue.setImageUrl(issueDTO.getImageUrl());
-        issue.setType(issueDTO.getIssueType());
+        issue.setType(issueDTO.getType());
 
         // Se non c'è stato, lo mettiamo in "TODO"
         if (issueDTO.getStatus() != null) {
@@ -87,7 +87,7 @@ public class IssueService {
         issue.setDeadline(issueDTO.getDeadline());
         issue.setDateResolved(issueDTO.getDateResolved());
         issue.setImageUrl(issueDTO.getImageUrl());
-        issue.setType(issueDTO.getIssueType());
+        issue.setType(issueDTO.getType());
 
         // Salviamo l'issue
         return issueRepository.save(issue);

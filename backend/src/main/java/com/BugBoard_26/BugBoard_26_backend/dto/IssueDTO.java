@@ -19,7 +19,7 @@ public class IssueDTO {
     private LocalDateTime deadline;
     private LocalDateTime dateResolved;
     private String imageUrl;
-    private IssueType issueType;
+    private IssueType type;
 
     // Usiamo solo gli ID per collegare gli utenti,
     // molto più veloce e semplice che passare interi oggetti User dal frontend
