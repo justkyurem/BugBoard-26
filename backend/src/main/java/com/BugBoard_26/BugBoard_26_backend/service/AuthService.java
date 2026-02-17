@@ -22,9 +22,9 @@ public class AuthService {
 
     // --- 1. COSTRUTTORE MANUALE (Per evitare errori di Lombok) ---
     public AuthService(UserRepository repository,
-                       PasswordEncoder passwordEncoder,
-                       JwtUtils jwtUtils,
-                       AuthenticationManager authenticationManager) {
+            PasswordEncoder passwordEncoder,
+            JwtUtils jwtUtils,
+            AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
@@ -43,7 +43,10 @@ public class AuthService {
 
         repository.save(user);
 
-        var jwtToken = jwtUtils.generateToken(user);
+        // Aggiungi il ruolo al JWT
+        var extraClaims = new java.util.HashMap<String, Object>();
+        extraClaims.put("role", user.getRole().name());
+        var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
         // --- 2. CORREZIONE QUI: Usa "new", non ".builder()" ---
         return new AuthResponse(jwtToken);
@@ -53,14 +56,15 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
-                        request.getPassword()
-                )
-        );
+                        request.getPassword()));
 
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
 
-        var jwtToken = jwtUtils.generateToken(user);
+        // Aggiungi il ruolo al JWT
+        var extraClaims = new java.util.HashMap<String, Object>();
+        extraClaims.put("role", user.getRole().name());
+        var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
         // --- 3. CORREZIONE QUI: Usa "new", non ".builder()" ---
         return new AuthResponse(jwtToken);
