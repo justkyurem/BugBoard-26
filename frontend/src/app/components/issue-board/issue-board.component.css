@@ -69,6 +69,22 @@
     cursor: pointer;
 }
 
+.btn-users {
+    background: #FF9800;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-users:hover {
+    background: #F57C00;
+}
+
 /* Tabella */
 .table-wrapper {
     background: white;
