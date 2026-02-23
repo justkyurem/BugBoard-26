@@ -11,3 +11,7 @@ target/
 build/
 dist/
 node_modules/
+
+# Uploads
+uploads/
+
