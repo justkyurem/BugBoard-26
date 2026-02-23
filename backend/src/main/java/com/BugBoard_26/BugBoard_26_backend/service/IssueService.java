@@ -68,6 +68,12 @@ public class IssueService {
         return issueRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Issue getIssueById(Long issueId) {
+        return issueRepository.findById(issueId)
+                .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
+    }
+
     // RF - 11: Ricerca Issue
     public List<Issue> searchIssues(String keyword) {
         return issueRepository.findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword);

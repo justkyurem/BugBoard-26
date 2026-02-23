@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
@@ -18,7 +18,8 @@ export class IssueDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private issueService: IssueService
+        private issueService: IssueService,
+        private cdRef: ChangeDetectorRef
     ) { }
 
     ngOnInit(): void {
@@ -36,11 +37,13 @@ export class IssueDetailComponent implements OnInit {
             next: (data) => {
                 this.issue = data;
                 this.loading = false;
+                this.cdRef.detectChanges(); // Forza il refresh della UI
             },
             error: (err) => {
                 console.error('Errore nel caricamento della issue', err);
                 this.error = 'Impossibile caricare la issue. Riprova più tardi.';
                 this.loading = false;
+                this.cdRef.detectChanges(); // Forza il refresh della UI
             }
         });
     }

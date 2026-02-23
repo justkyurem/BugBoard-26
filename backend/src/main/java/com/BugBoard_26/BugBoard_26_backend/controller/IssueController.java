@@ -36,6 +36,13 @@ public class IssueController {
         return ResponseEntity.ok(issues);
     }
 
+    // RF - 3: Ottenimento issue per ID
+    // GET /api/issues/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<Issue> getIssueById(@PathVariable Long id) {
+        return ResponseEntity.ok(issueService.getIssueById(id));
+    }
+
     // RF - 2: Creazione issue
     // POST /api/issues
     @PostMapping

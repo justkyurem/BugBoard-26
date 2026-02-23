@@ -41,11 +41,13 @@
             <div class="side-info">
                 <div class="info-group">
                     <label>Assegnato a</label>
-                    <span>{{ issue.assigneeId ? ('Utente ' + issue.assigneeId) : 'Non assegnato' }}</span>
+                    <span *ngIf="issue.assigneeId">Utente {{ issue.assigneeId }}</span>
+                    <span *ngIf="!issue.assigneeId">Non assegnato</span>
                 </div>
                 <div class="info-group">
                     <label>Segnalato da</label>
-                    <span>{{ issue.reporterId ? ('Utente ' + issue.reporterId) : 'Anonimo' }}</span>
+                    <span *ngIf="issue.reporterId">Utente {{ issue.reporterId }}</span>
+                    <span *ngIf="!issue.reporterId">Anonimo</span>
                 </div>
                 <div class="info-group">
                     <label>Scadenza</label>
