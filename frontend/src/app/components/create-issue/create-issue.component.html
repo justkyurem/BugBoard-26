@@ -16,6 +16,12 @@
                 placeholder="Dettagli del problema..."></textarea>
         </div>
 
+        <!-- Allegato -->
+        <div class="form-group">
+            <label>Allega Immagine (Opzionale)</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+        </div>
+
         <!-- Priorità & Tipo -->
         <div class="row">
             <div class="form-group">

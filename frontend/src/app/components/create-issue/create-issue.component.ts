@@ -25,21 +25,50 @@ export class CreateIssueComponent {
 
   priorities = Object.values(Priority);
   types = Object.values(IssueType);
+  selectedFile: File | null = null;
+
 
   constructor(
     private issueService: IssueService,
     private router: Router
   ) { }
 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   onSubmit(): void {
+    if (this.selectedFile) {
+      // Se c'è un file, lo carico prima
+      this.issueService.uploadImage(this.selectedFile).subscribe({
+        next: (response) => {
+          this.issue.imageUrl = response.imageUrl; // Assegna l'url ricevuto
+          this.saveIssue();
+        },
+        error: (err) => {
+          console.error('Errore caricamento file', err);
+          alert('Errore caricamento file');
+        }
+      });
+    } else {
+      // Nessun file, creo il ticket
+      this.saveIssue();
+    }
+  }
+
+  // Metodo per non ripetere il codice
+  private saveIssue(): void {
     this.issueService.createIssue(this.issue).subscribe({
       next: () => {
         alert('Ticket creato con successo!');
-        this.router.navigate(['/']); // Torna alla dashboard
+        this.router.navigate(['/issues']);
       },
       error: (err) => {
-        console.error(err);
-        alert('Errore durante la creazione.');
+        console.error('Errore creazione ticket', err);
+        alert('Errore creazione ticket');
       }
     });
   }

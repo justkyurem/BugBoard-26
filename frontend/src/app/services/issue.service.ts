@@ -20,6 +20,12 @@ export class IssueService {
     createIssue(issue: Issue): Observable<Issue> {
         return this.http.post<Issue>(this.apiUrl, issue);
     }
+    // POST /api/files
+    uploadImage(file: File): Observable<{ imageUrl: string }> {
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name);
+        return this.http.post<{ imageUrl: string }>('http://localhost:8080/api/files', formData);
+    }
     // PUT /api/issues/{id}
     updateIssue(id: number, issue: Issue): Observable<Issue> {
         return this.http.put<Issue>(`${this.apiUrl}/${id}`, issue);
