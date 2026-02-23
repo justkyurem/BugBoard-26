@@ -37,8 +37,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disabilita CSRF (non serve con JWT)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Abilita CORS per Angular
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Le porte APERTE a tutti (Login e Registrazione)
+                        // 1. Le porte APERTE a tutti
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         // 2. Le porte solo per ADMIN (Gestione Utenti)
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         // 3. Tutto il resto richiede autenticazione
