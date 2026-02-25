@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Issue } from '../models/issue.model';
 @Injectable({
@@ -11,6 +11,13 @@ export class IssueService {
     // GET /api/issues
     getAllIssues(): Observable<Issue[]> {
         return this.http.get<Issue[]>(this.apiUrl);
+    }
+    getIssuesFiltered(filters: any): Observable<Issue[]> {
+        let params = new HttpParams();
+        if (filters.status) params = params.set('status', filters.status);
+        if (filters.priority) params = params.set('priority', filters.priority);
+        if (filters.type) params = params.set('type', filters.type);
+        return this.http.get<Issue[]>(this.apiUrl, { params });
     }
     // GET /api/issues/{id}
     getIssueById(id: number): Observable<Issue> {

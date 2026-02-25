@@ -1,13 +1,14 @@
 export enum Priority {
     LOW = 'LOW',
     MEDIUM = 'MEDIUM',
-    HIGH = 'HIGH'
+    HIGH = 'HIGH',
+    CRITICAL = 'CRITICAL'
 }
 export enum Status {
     TODO = 'TODO',
     IN_PROGRESS = 'IN_PROGRESS',
-    RESOLVED = 'RESOLVED',
-    CLOSED = 'CLOSED'
+    DONE = 'DONE',
+    DUPLICATE = 'DUPLICATE'
 }
 export enum IssueType {
     BUG = 'BUG',
