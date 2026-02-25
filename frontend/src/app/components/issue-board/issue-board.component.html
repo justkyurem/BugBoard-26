@@ -7,6 +7,31 @@
             <button routerLink="/create-issue" class="btn-create">+ Nuova Issue</button>
         </div>
     </div>
+    <!-- FILTRI -->
+    <div class="filters">
+        <select #statusRef (change)="filterStatus = statusRef.value; applyFilters()">
+            <option value="">Tutti gli stati</option>
+            <option value="TODO">TODO</option>
+            <option value="IN_PROGRESS">IN PROGRESS</option>
+            <option value="DONE">DONE</option>
+            <option value="DUPLICATE">DUPLICATE</option>
+        </select>
+        <select #priorityRef (change)="filterPriority = priorityRef.value; applyFilters()">
+            <option value="">Tutte le priorità</option>
+            <option value="LOW">LOW</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+            <option value="CRITICAL">CRITICAL</option>
+        </select>
+        <select #typeRef (change)="filterType = typeRef.value; applyFilters()">
+            <option value="">Tutti i tipi</option>
+            <option value="BUG">BUG</option>
+            <option value="FEATURE">FEATURE</option>
+            <option value="DOCUMENTATION">DOCUMENTATION</option>
+            <option value="QUESTION">QUESTION</option>
+        </select>
+        <button (click)="resetFilters(statusRef, priorityRef, typeRef)" class="btn-logout">Reset</button>
+    </div>
     <div class="table-wrapper">
         <table class="issue-table">
             <thead>

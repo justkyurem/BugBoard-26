@@ -23,6 +23,12 @@ export class IssueBoardComponent implements OnInit {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
+
+  // Filtri
+  filterStatus: string = '';
+  filterPriority: string = '';
+  filterType: string = '';
+
   ngOnInit(): void {
     this.loadIssues();
   }
@@ -30,7 +36,7 @@ export class IssueBoardComponent implements OnInit {
     this.issueService.getAllIssues().subscribe({
       next: (data) => {
         this.issues = data;
-        this.cdr.detectChanges(); // Manually trigger change detection
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error:', err)
     });
@@ -41,8 +47,31 @@ export class IssueBoardComponent implements OnInit {
       this.issueService.deleteIssue(id).subscribe(() => this.loadIssues());
     }
   }
+  applyFilters(): void {
+    const params: any = {};
+    if (this.filterStatus) params['status'] = this.filterStatus;
+    if (this.filterPriority) params['priority'] = this.filterPriority;
+    if (this.filterType) params['type'] = this.filterType;
+    this.issueService.getIssuesFiltered(params).subscribe({
+      next: (data) => {
+        this.issues = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Filter Error:', err)
+    });
+  }
+  resetFilters(statusEl: HTMLSelectElement, priorityEl: HTMLSelectElement, typeEl: HTMLSelectElement): void {
+    this.filterStatus = '';
+    this.filterPriority = '';
+    this.filterType = '';
+    statusEl.value = '';
+    priorityEl.value = '';
+    typeEl.value = '';
+    this.loadIssues();
+  }
   getPriorityClass(priority: Priority): string {
     switch (priority) {
+      case Priority.CRITICAL: return 'badge-critical';
       case Priority.HIGH: return 'badge-high';
       case Priority.MEDIUM: return 'badge-medium';
       case Priority.LOW: return 'badge-low';
@@ -53,7 +82,8 @@ export class IssueBoardComponent implements OnInit {
     switch (status) {
       case Status.TODO: return 'status-todo';
       case Status.IN_PROGRESS: return 'status-progress';
-      case Status.RESOLVED: return 'status-resolved';
+      case Status.DONE: return 'status-done';
+      case Status.DUPLICATE: return 'status-duplicate';
       default: return 'status-default';
     }
   }

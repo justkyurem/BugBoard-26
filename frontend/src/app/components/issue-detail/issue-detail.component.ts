@@ -50,6 +50,7 @@ export class IssueDetailComponent implements OnInit {
 
     getPriorityClass(priority: string): string {
         switch (priority) {
+            case 'CRITICAL': return 'badge-critical';
             case 'HIGH': return 'badge-high';
             case 'MEDIUM': return 'badge-medium';
             case 'LOW': return 'badge-low';
@@ -59,10 +60,10 @@ export class IssueDetailComponent implements OnInit {
 
     getStatusClass(status: string): string {
         switch (status) {
-            case 'OPEN': return 'badge-open';
+            case 'TODO': return 'badge-todo';
             case 'IN_PROGRESS': return 'badge-progress';
-            case 'RESOLVED': return 'badge-resolved';
-            case 'CLOSED': return 'badge-closed';
+            case 'DONE': return 'badge-done';
+            case 'DUPLICATE': return 'badge-duplicate';
             default: return 'badge-default';
         }
     }
