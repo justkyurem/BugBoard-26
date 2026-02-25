@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
 import com.BugBoard_26.BugBoard_26_backend.model.Issue;
+import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
+import com.BugBoard_26.BugBoard_26_backend.model.Priority;
+import com.BugBoard_26.BugBoard_26_backend.model.Status;
 import com.BugBoard_26.BugBoard_26_backend.service.IssueService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,19 +31,22 @@ public class IssueController {
 
     private final IssueService issueService;
 
-    // RF - 3: Ottenimento lista issue
-    // GET /api/issues
-    @GetMapping
-    public ResponseEntity<List<Issue>> getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues();
-        return ResponseEntity.ok(issues);
-    }
-
     // RF - 3: Ottenimento issue per ID
     // GET /api/issues/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Issue> getIssueById(@PathVariable Long id) {
         return ResponseEntity.ok(issueService.getIssueById(id));
+    }
+
+    // RF - 3: Ottenimento lista issue con filtri opzionali
+    // GET /api/issues?status=TODO&priority=HIGH&type=BUG
+    @GetMapping
+    public ResponseEntity<List<Issue>> getAllIssues(
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) Priority priority,
+            @RequestParam(required = false) IssueType type) {
+        List<Issue> issues = issueService.getIssuesFiltered(status, priority, type);
+        return ResponseEntity.ok(issues);
     }
 
     // RF - 2: Creazione issue

@@ -4,6 +4,8 @@ import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
 import com.BugBoard_26.BugBoard_26_backend.model.Issue;
 import com.BugBoard_26.BugBoard_26_backend.model.Status;
 import com.BugBoard_26.BugBoard_26_backend.model.User;
+import com.BugBoard_26.BugBoard_26_backend.model.Priority;
+import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
 import com.BugBoard_26.BugBoard_26_backend.repository.IssueRepository;
 import com.BugBoard_26.BugBoard_26_backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -72,6 +74,11 @@ public class IssueService {
     public Issue getIssueById(Long issueId) {
         return issueRepository.findById(issueId)
                 .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Issue> getIssuesFiltered(Status status, Priority priority, IssueType type) {
+        return issueRepository.findByFilters(status, priority, type);
     }
 
     // RF - 11: Ricerca Issue
