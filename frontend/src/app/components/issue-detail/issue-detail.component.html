@@ -60,5 +60,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- Sezione Modifica (Req 4, 6, 18) -->
+        <div class="edit-section">
+            <h3>Modifica Issue</h3>
+
+            <!-- Cambio Stato (Req 6) -->
+            <div class="form-group">
+                <label>Stato</label>
+                <select #statusEditRef>
+                    <option value="TODO" [selected]="issue.status === 'TODO'">TODO</option>
+                    <option value="IN_PROGRESS" [selected]="issue.status === 'IN_PROGRESS'">IN PROGRESS</option>
+                    <option value="DONE" [selected]="issue.status === 'DONE'">DONE</option>
+                    <option value="DUPLICATE" [selected]="issue.status === 'DUPLICATE'">DUPLICATE</option>
+                </select>
+            </div>
+
+            <!-- Assegnazione Utente (Req 4) -->
+            <div class="form-group">
+                <label>Assegna a</label>
+                <select #assigneeRef>
+                    <option value="">Nessuno</option>
+                    <option *ngFor="let u of usersList" [value]="u.id" [selected]="issue.assigneeId === u.id">
+                        {{ u.name }} {{ u.surname }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Scadenza (Req 18) -->
+            <div class="form-group">
+                <label>Scadenza</label>
+                <input type="datetime-local" #deadlineRef
+                    [value]="issue.deadline ? (issue.deadline | date:'yyyy-MM-ddTHH:mm') : ''" />
+            </div>
+
+            <button class="btn-save" (click)="saveChanges(statusEditRef.value, assigneeRef.value, deadlineRef.value)">
+                Salva Modifiche
+            </button>
+            <span *ngIf="saveSuccess" style="color: green; margin-left: 12px;">✓ Salvato!</span>
+        </div>
     </div>
+
 </div>
