@@ -23,6 +23,9 @@
             <option value="HIGH">HIGH</option>
             <option value="CRITICAL">CRITICAL</option>
         </select>
+        <input type="text" #searchRef placeholder="Cerca per parole chiave..."
+            (keydown.enter)="onSearch(searchRef.value)" />
+        <button (click)="onSearch(searchRef.value)">Cerca</button>
         <select #typeRef (change)="filterType = typeRef.value; applyFilters()">
             <option value="">Tutti i tipi</option>
             <option value="BUG">BUG</option>

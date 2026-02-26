@@ -87,4 +87,17 @@ export class IssueBoardComponent implements OnInit {
       default: return 'status-default';
     }
   }
+  onSearch(keyword: string): void {
+    if (!keyword.trim()) {
+      this.loadIssues();
+      return;
+    }
+    this.issueService.searchIssues(keyword).subscribe({
+      next: (data) => {
+        this.issues = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err)
+    })
+  }
 }
