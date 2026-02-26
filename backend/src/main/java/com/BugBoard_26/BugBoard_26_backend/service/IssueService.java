@@ -16,18 +16,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor // Crea il costruttore automatico per i repository 'final'
+@RequiredArgsConstructor
 public class IssueService {
 
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
 
     // RF - 2: Creazione Issue
-
-    public Issue createIssue(IssueDTO issueDTO) {
-
-        // Copiamo i dati dal DTO all'entità
-
+    public IssueDTO createIssue(IssueDTO issueDTO) {
         Issue issue = new Issue();
         issue.setTitle(issueDTO.getTitle());
         issue.setDescription(issueDTO.getDescription());
@@ -38,13 +34,6 @@ public class IssueService {
         issue.setImageUrl(issueDTO.getImageUrl());
         issue.setType(issueDTO.getType());
 
-        // Se non c'è stato, lo mettiamo in "TODO"
-        if (issueDTO.getStatus() != null) {
-            issue.setStatus(issueDTO.getStatus());
-        }
-
-        // Gestiamo le relazioni con gli utenti
-        // Cerchiamo il reporter (chi ha aperto il ticket)
         if (issueDTO.getReporterId() != null) {
             User reporter = userRepository.findById(issueDTO.getReporterId())
                     .orElseThrow(() -> new EntityNotFoundException(
@@ -52,7 +41,6 @@ public class IssueService {
             issue.setReporter(reporter);
         }
 
-        // Cerchiamo il assignee (chi deve risolvere il ticket)
         if (issueDTO.getAssigneeId() != null) {
             User assignee = userRepository.findById(issueDTO.getAssigneeId())
                     .orElseThrow(() -> new EntityNotFoundException(
@@ -60,40 +48,39 @@ public class IssueService {
             issue.setAssignee(assignee);
         }
 
-        // Salviamo l'issue
-        return issueRepository.save(issue);
+        return toDTO(issueRepository.save(issue));
     }
 
     // RF - 3: Visualizzazione Issue
-    @Transactional(readOnly = true) // Ottimizza le prestazioni in lettura
-    public List<Issue> getAllIssues() {
-        return issueRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<IssueDTO> getAllIssues() {
+        return issueRepository.findAll().stream().map(this::toDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public Issue getIssueById(Long issueId) {
-        return issueRepository.findById(issueId)
-                .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
+    public IssueDTO getIssueById(Long issueId) {
+        return toDTO(issueRepository.findById(issueId)
+                .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId)));
     }
 
     @Transactional(readOnly = true)
-    public List<Issue> getIssuesFiltered(Status status, Priority priority, IssueType type) {
-        return issueRepository.findByFilters(status, priority, type);
+    public List<IssueDTO> getIssuesFiltered(Status status, Priority priority, IssueType type) {
+        return issueRepository.findByFilters(status, priority, type).stream().map(this::toDTO).toList();
     }
 
     // RF - 11: Ricerca Issue
-    public List<Issue> searchIssues(String keyword) {
-        return issueRepository.findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword);
+    public List<IssueDTO> searchIssues(String keyword) {
+        return issueRepository
+                .findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword)
+                .stream().map(this::toDTO).toList();
     }
 
     // RF - 6: Modifica Issue & RF - 4: Assegnazione Issue
     @Transactional
-    public Issue updateIssue(Long issueId, IssueDTO issueDTO) {
-        // Cerchiamo l'issue
+    public IssueDTO updateIssue(Long issueId, IssueDTO issueDTO) {
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
 
-        // Salviamo lo stato VECCHIO prima di sovrascriverlo, per la logica di notifica
         boolean wasAlreadyDone = (issue.getStatus() == Status.DONE);
 
         issue.setTitle(issueDTO.getTitle());
@@ -111,18 +98,19 @@ public class IssueService {
                     .orElseThrow(() -> new EntityNotFoundException(
                             "Assignee non trovato con ID: " + issueDTO.getAssigneeId()));
             issue.setAssignee(assignee);
+            System.out.println("NOTIFICA A " + assignee.getEmail()
+                    + ": Ti è stata assegnata una nuova issue: '" + issue.getTitle() + "'");
         } else {
             issue.setAssignee(null);
         }
 
         // Simulazione Notifica (RF-6): si attiva SOLO quando lo stato TRANSITA a DONE
         if (issueDTO.getStatus() == Status.DONE && !wasAlreadyDone && issue.getReporter() != null) {
-            System.out.println("NOTIFICA A " + issue.getReporter().getEmail() + ": Il tuo bug '" + issue.getTitle()
-                    + "' è stato risolto!");
+            System.out.println("NOTIFICA A " + issue.getReporter().getEmail()
+                    + ": Il tuo bug '" + issue.getTitle() + "' è stato risolto!");
         }
 
-        // Salviamo l'issue
-        return issueRepository.save(issue);
+        return toDTO(issueRepository.save(issue));
     }
 
     // Cancellazione
@@ -133,4 +121,25 @@ public class IssueService {
         issueRepository.deleteById(issueId);
     }
 
+    // Converte Issue entità → IssueDTO (con ID flat invece di oggetti annidati)
+    private IssueDTO toDTO(Issue issue) {
+        IssueDTO dto = new IssueDTO();
+        dto.setId(issue.getId());
+        dto.setTitle(issue.getTitle());
+        dto.setDescription(issue.getDescription());
+        dto.setPriority(issue.getPriority());
+        dto.setStatus(issue.getStatus());
+        dto.setDeadline(issue.getDeadline());
+        dto.setDateResolved(issue.getDateResolved());
+        dto.setImageUrl(issue.getImageUrl());
+        dto.setType(issue.getType());
+        dto.setDateAdded(issue.getDateAdded());
+        if (issue.getAssignee() != null) {
+            dto.setAssigneeId(issue.getAssignee().getId());
+        }
+        if (issue.getReporter() != null) {
+            dto.setReporterId(issue.getReporter().getId());
+        }
+        return dto;
+    }
 }

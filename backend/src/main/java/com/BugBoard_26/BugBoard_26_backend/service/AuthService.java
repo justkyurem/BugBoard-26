@@ -49,7 +49,7 @@ public class AuthService {
         var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
         // --- 2. CORREZIONE QUI: Usa "new", non ".builder()" ---
-        return new AuthResponse(jwtToken);
+        return new AuthResponse(jwtToken, user.getId(), user.getRole().name());
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -67,6 +67,6 @@ public class AuthService {
         var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
         // --- 3. CORREZIONE QUI: Usa "new", non ".builder()" ---
-        return new AuthResponse(jwtToken);
+        return new AuthResponse(jwtToken, user.getId(), user.getRole().name());
     }
 }

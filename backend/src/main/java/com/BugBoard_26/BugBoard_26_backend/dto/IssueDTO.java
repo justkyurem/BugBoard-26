@@ -17,6 +17,7 @@ public class IssueDTO {
     private Priority priority;
     private Status status;
     private LocalDateTime deadline;
+    private LocalDateTime dateAdded;
     private LocalDateTime dateResolved;
     private String imageUrl;
     private IssueType type;

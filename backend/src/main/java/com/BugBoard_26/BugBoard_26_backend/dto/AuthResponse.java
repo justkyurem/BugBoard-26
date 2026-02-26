@@ -3,23 +3,39 @@ package com.BugBoard_26.BugBoard_26_backend.dto;
 public class AuthResponse {
 
     private String token;
+    private Long userId;
+    private String role;
 
-    // 1. Costruttore
     public AuthResponse() {
     }
 
-    // 2. Costruttore PIENO
-    // Senza questo, "new AuthResponse(jwtToken)" dà errore.
-    public AuthResponse(String token) {
+    public AuthResponse(String token, Long userId, String role) {
         this.token = token;
+        this.userId = userId;
+        this.role = role;
     }
 
-    // 3. Getter e Setter (Serve per trasformare l'oggetto in JSON)
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
