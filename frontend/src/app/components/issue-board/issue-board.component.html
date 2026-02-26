@@ -33,6 +33,10 @@
             <option value="DOCUMENTATION">DOCUMENTATION</option>
             <option value="QUESTION">QUESTION</option>
         </select>
+        <label>
+            <input type="checkbox" #mineRef (change)="filterMine = mineRef.checked; applyFilters()" />
+            Solo i miei ticket
+        </label>
         <button (click)="resetFilters(statusRef, priorityRef, typeRef)" class="btn-logout">Reset</button>
     </div>
     <div class="table-wrapper">

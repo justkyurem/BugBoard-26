@@ -41,7 +41,11 @@
             <div class="side-info">
                 <div class="info-group">
                     <label>Assegnato a</label>
-                    <span *ngIf="issue.assigneeId">Utente {{ issue.assigneeId }}</span>
+                    <ng-container *ngIf="issue.assigneeId">
+                        <span *ngFor="let u of usersList">
+                            <ng-container *ngIf="u.id === issue.assigneeId">{{ u.name }} {{ u.surname }}</ng-container>
+                        </span>
+                    </ng-container>
                     <span *ngIf="!issue.assigneeId">Non assegnato</span>
                 </div>
                 <div class="info-group">

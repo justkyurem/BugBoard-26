@@ -21,6 +21,8 @@ export class IssueBoardComponent implements OnInit {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('role');
     this.router.navigate(['/login']);
   }
 
@@ -28,6 +30,7 @@ export class IssueBoardComponent implements OnInit {
   filterStatus: string = '';
   filterPriority: string = '';
   filterType: string = '';
+  filterMine: boolean = false;
 
   ngOnInit(): void {
     this.loadIssues();
@@ -54,7 +57,9 @@ export class IssueBoardComponent implements OnInit {
     if (this.filterType) params['type'] = this.filterType;
     this.issueService.getIssuesFiltered(params).subscribe({
       next: (data) => {
-        this.issues = data;
+        this.issues = this.filterMine
+          ? data.filter(i => i.assigneeId === Number(localStorage.getItem('userID')))
+          : data;
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Filter Error:', err)

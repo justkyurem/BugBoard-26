@@ -31,8 +31,9 @@ export class LoginComponent {
         next: (response) => {
           // Salviamo il token (lo useremo dopo per le chiamate autenticate)
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userID', response.userId);
+          localStorage.setItem('role', response.role);
           this.loading = false;
-          // Reindirizza alla dashboard
           this.router.navigate(['/issue-board']);
         },
         error: (error) => {
