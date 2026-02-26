@@ -11,7 +11,7 @@
     <div *ngIf="issue" class="issue-content">
         <div class="header-actions">
             <button routerLink="/issue-board" class="btn-back">← Torna alla Board</button>
-            <div class="actions">
+            <div class="actions" *ngIf="isAdmin">
                 <button class="btn-edit" [routerLink]="['/edit', issue.id]">Modifica</button>
             </div>
         </div>
@@ -41,16 +41,12 @@
             <div class="side-info">
                 <div class="info-group">
                     <label>Assegnato a</label>
-                    <ng-container *ngIf="issue.assigneeId">
-                        <span *ngFor="let u of usersList">
-                            <ng-container *ngIf="u.id === issue.assigneeId">{{ u.name }} {{ u.surname }}</ng-container>
-                        </span>
-                    </ng-container>
+                    <span *ngIf="issue.assigneeId">{{ issue.assigneeFullName }}</span>
                     <span *ngIf="!issue.assigneeId">Non assegnato</span>
                 </div>
                 <div class="info-group">
                     <label>Segnalato da</label>
-                    <span *ngIf="issue.reporterId">Utente {{ issue.reporterId }}</span>
+                    <span *ngIf="issue.reporterId">{{ issue.reporterFullName }}</span>
                     <span *ngIf="!issue.reporterId">Anonimo</span>
                 </div>
                 <div class="info-group">
@@ -69,7 +65,7 @@
         <div class="edit-section">
             <h3>Modifica Issue</h3>
 
-            <!-- Cambio Stato (Req 6) -->
+            <!-- Cambio Stato (Req 6) - visibile a tutti -->
             <div class="form-group">
                 <label>Stato</label>
                 <select #statusEditRef>
@@ -80,8 +76,8 @@
                 </select>
             </div>
 
-            <!-- Assegnazione Utente (Req 4) -->
-            <div class="form-group">
+            <!-- Assegnazione Utente (Req 4) - solo ADMIN (nascosto con [hidden] per mantenere il ref nel DOM) -->
+            <div class="form-group" [hidden]="!isAdmin">
                 <label>Assegna a</label>
                 <select #assigneeRef>
                     <option value="">Nessuno</option>
@@ -91,18 +87,29 @@
                 </select>
             </div>
 
-            <!-- Scadenza (Req 18) -->
-            <div class="form-group">
+            <!-- Scadenza (Req 18) - solo ADMIN (nascosto con [hidden] per mantenere il ref nel DOM) -->
+            <div class="form-group" [hidden]="!isAdmin">
                 <label>Scadenza</label>
                 <input type="datetime-local" #deadlineRef
                     [value]="issue.deadline ? (issue.deadline | date:'yyyy-MM-ddTHH:mm') : ''" />
             </div>
 
-            <button class="btn-save" (click)="saveChanges(statusEditRef.value, assigneeRef.value, deadlineRef.value)">
-                Salva Modifiche
-            </button>
+            <!-- Salva: admin passa tutti i campi, developer solo lo stato -->
+            <ng-container *ngIf="isAdmin; else devSave">
+                <button class="btn-save"
+                    (click)="saveChanges(statusEditRef.value, assigneeRef.value, deadlineRef.value)">
+                    Salva Modifiche
+                </button>
+            </ng-container>
+            <ng-template #devSave>
+                <button class="btn-save" (click)="saveChanges(statusEditRef.value, '', '')">
+                    Aggiorna Stato
+                </button>
+            </ng-template>
             <span *ngIf="saveSuccess" style="color: green; margin-left: 12px;">✓ Salvato!</span>
         </div>
+
+
     </div>
 
 </div>

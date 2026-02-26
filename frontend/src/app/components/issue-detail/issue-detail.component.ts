@@ -19,6 +19,7 @@ export class IssueDetailComponent implements OnInit {
     loading: boolean = true;
     error: string | null = null;
     saveSuccess: boolean = false;
+    isAdmin: boolean = localStorage.getItem('role') === 'ADMIN';
 
     constructor(
         private route: ActivatedRoute,
@@ -69,8 +70,9 @@ export class IssueDetailComponent implements OnInit {
         const updated: any = {
             ...this.issue,
             status: status,
-            assigneeId: assigneeId ? Number(assigneeId) : null,
-            deadline: deadline ? deadline : null
+            // Preserva i valori esistenti se non forniti (es. quando il developer aggiorna solo lo stato)
+            assigneeId: assigneeId ? Number(assigneeId) : (this.issue.assigneeId ?? null),
+            deadline: deadline ? deadline : (this.issue.deadline ?? null)
         };
 
         this.issueService.updateIssue(this.issue.id!, updated).subscribe({
