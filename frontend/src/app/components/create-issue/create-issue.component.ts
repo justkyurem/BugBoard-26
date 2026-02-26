@@ -41,11 +41,16 @@ export class CreateIssueComponent {
   }
 
   onSubmit(): void {
+    // Imposta il reporter come l'utente loggato
+    const userId = localStorage.getItem('userID');
+    if (userId) {
+      this.issue.reporterId = Number(userId);
+    }
+
     if (this.selectedFile) {
-      // Se c'è un file, lo carico prima
       this.issueService.uploadImage(this.selectedFile).subscribe({
         next: (response) => {
-          this.issue.imageUrl = response.imageUrl; // Assegna l'url ricevuto
+          this.issue.imageUrl = response.imageUrl;
           this.saveIssue();
         },
         error: (err) => {
@@ -54,17 +59,15 @@ export class CreateIssueComponent {
         }
       });
     } else {
-      // Nessun file, creo il ticket
       this.saveIssue();
     }
   }
 
-  // Metodo per non ripetere il codice
   private saveIssue(): void {
     this.issueService.createIssue(this.issue).subscribe({
       next: () => {
         alert('Ticket creato con successo!');
-        this.router.navigate(['/issues']);
+        this.router.navigate(['/issue-board']);
       },
       error: (err) => {
         console.error('Errore creazione ticket', err);
