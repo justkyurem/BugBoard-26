@@ -136,9 +136,11 @@ public class IssueService {
         dto.setDateAdded(issue.getDateAdded());
         if (issue.getAssignee() != null) {
             dto.setAssigneeId(issue.getAssignee().getId());
+            dto.setAssigneeFullName(issue.getAssignee().getName() + " " + issue.getAssignee().getSurname());
         }
         if (issue.getReporter() != null) {
             dto.setReporterId(issue.getReporter().getId());
+            dto.setReporterFullName(issue.getReporter().getName() + " " + issue.getReporter().getSurname());
         }
         return dto;
     }

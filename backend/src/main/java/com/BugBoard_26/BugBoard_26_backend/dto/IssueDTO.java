@@ -25,6 +25,8 @@ public class IssueDTO {
     // Usiamo solo gli ID per collegare gli utenti,
     // molto più veloce e semplice che passare interi oggetti User dal frontend
     private Long assigneeId;
+    private String assigneeFullName;
     private Long reporterId;
+    private String reporterFullName;
 
 }
