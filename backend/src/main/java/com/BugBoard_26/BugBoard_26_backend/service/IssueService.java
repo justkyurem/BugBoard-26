@@ -86,12 +86,15 @@ public class IssueService {
         return issueRepository.findByTitleContainingOrDescriptionContainingIgnoreCase(keyword, keyword);
     }
 
-    // RF - 6: Modifica Issue
+    // RF - 6: Modifica Issue & RF - 4: Assegnazione Issue
     @Transactional
     public Issue updateIssue(Long issueId, IssueDTO issueDTO) {
         // Cerchiamo l'issue
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new EntityNotFoundException("Issue non trovata con ID: " + issueId));
+
+        // Salviamo lo stato VECCHIO prima di sovrascriverlo, per la logica di notifica
+        boolean wasAlreadyDone = (issue.getStatus() == Status.DONE);
 
         issue.setTitle(issueDTO.getTitle());
         issue.setDescription(issueDTO.getDescription());
@@ -101,6 +104,22 @@ public class IssueService {
         issue.setDateResolved(issueDTO.getDateResolved());
         issue.setImageUrl(issueDTO.getImageUrl());
         issue.setType(issueDTO.getType());
+
+        // Assegnazione Utente (RF-4)
+        if (issueDTO.getAssigneeId() != null) {
+            User assignee = userRepository.findById(issueDTO.getAssigneeId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Assignee non trovato con ID: " + issueDTO.getAssigneeId()));
+            issue.setAssignee(assignee);
+        } else {
+            issue.setAssignee(null);
+        }
+
+        // Simulazione Notifica (RF-6): si attiva SOLO quando lo stato TRANSITA a DONE
+        if (issueDTO.getStatus() == Status.DONE && !wasAlreadyDone && issue.getReporter() != null) {
+            System.out.println("NOTIFICA A " + issue.getReporter().getEmail() + ": Il tuo bug '" + issue.getTitle()
+                    + "' è stato risolto!");
+        }
 
         // Salviamo l'issue
         return issueRepository.save(issue);

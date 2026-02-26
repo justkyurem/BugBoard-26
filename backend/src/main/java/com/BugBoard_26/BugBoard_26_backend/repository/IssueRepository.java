@@ -21,7 +21,10 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     List<Issue> findByPriority(Priority priority);
 
     // Metodo per filtrare i ticket per titolo o descrizione
-    List<Issue> findByTitleContainingOrDescriptionContainingIgnoreCase(String text, String text2);
+    @Query("SELECT i FROM Issue i WHERE LOWER(i.title) LIKE LOWER(CONCAT('%', :title, '%')) OR LOWER(i.description) LIKE LOWER(CONCAT('%', :description, '%'))")
+    List<Issue> findByTitleContainingOrDescriptionContainingIgnoreCase(
+            @Param("title") String title,
+            @Param("description") String description);
 
     // Req 3: Filtri opzionali
     @Query("SELECT i FROM Issue i WHERE " +
