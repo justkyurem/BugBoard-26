@@ -13,6 +13,8 @@ import { Issue, Status, Priority } from '../../models/issue.model';
 export class IssueBoardComponent implements OnInit {
   issues: Issue[] = [];
   status = Status;
+  isAdmin: boolean = localStorage.getItem('role') === 'ADMIN';
+
   constructor(
     private issueService: IssueService,
     private router: Router,
