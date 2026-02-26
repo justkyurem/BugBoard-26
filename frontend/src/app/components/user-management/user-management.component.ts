@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -26,7 +26,7 @@ export class UserManagementComponent implements OnInit {
 
     Role = Role; // Per accedere all'enum nel template
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.loadUsers();
@@ -34,7 +34,10 @@ export class UserManagementComponent implements OnInit {
 
     loadUsers(): void {
         this.userService.getUsers().subscribe({
-            next: (data) => this.users = data,
+            next: (data) => {
+                this.users = data;
+                this.cdRef.detectChanges();
+            },
             error: (err) => console.error('Errore nel caricamento utenti:', err)
         });
     }
@@ -95,7 +98,7 @@ export class UserManagementComponent implements OnInit {
         }
     }
 
-    deleteUser(id:number | undefined): void {
+    deleteUser(id: number | undefined): void {
         if (id) {
             if (confirm('Sei sicuro di voler eliminare questo utente?')) {
                 this.userService.deleteUser(id).subscribe({
