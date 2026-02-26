@@ -28,5 +28,7 @@ export interface Issue {
     dateResolved?: string;
     imageUrl?: string;
     reporterId?: number;
+    reporterFullName?: string;
     assigneeId?: number;
+    assigneeFullName?: string;
 }
