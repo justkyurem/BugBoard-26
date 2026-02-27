@@ -33,6 +33,9 @@ export class IssueBoardComponent implements OnInit {
   filterPriority: string = '';
   filterType: string = '';
   filterMine: boolean = false;
+  sortBy: string = 'dateAdded';
+  sortDir: string = 'desc';
+
 
   ngOnInit(): void {
     this.loadIssues();
@@ -57,6 +60,8 @@ export class IssueBoardComponent implements OnInit {
     if (this.filterStatus) params['status'] = this.filterStatus;
     if (this.filterPriority) params['priority'] = this.filterPriority;
     if (this.filterType) params['type'] = this.filterType;
+    params['sortBy'] = this.sortBy;
+    params['sortDir'] = this.sortDir;
     this.issueService.getIssuesFiltered(params).subscribe({
       next: (data) => {
         this.issues = this.filterMine
@@ -67,13 +72,18 @@ export class IssueBoardComponent implements OnInit {
       error: (err) => console.error('Filter Error:', err)
     });
   }
-  resetFilters(statusEl: HTMLSelectElement, priorityEl: HTMLSelectElement, typeEl: HTMLSelectElement): void {
+  resetFilters(statusEl: HTMLSelectElement, priorityEl: HTMLSelectElement, typeEl: HTMLSelectElement,
+    sortByEl: HTMLSelectElement, sortDirEl: HTMLSelectElement): void {
     this.filterStatus = '';
     this.filterPriority = '';
     this.filterType = '';
+    this.sortBy = 'dateAdded';
+    this.sortDir = 'desc';
     statusEl.value = '';
     priorityEl.value = '';
     typeEl.value = '';
+    sortByEl.value = 'dateAdded';
+    sortDirEl.value = 'desc';
     this.loadIssues();
   }
   getPriorityClass(priority: Priority): string {

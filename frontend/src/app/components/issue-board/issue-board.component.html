@@ -33,11 +33,23 @@
             <option value="DOCUMENTATION">DOCUMENTATION</option>
             <option value="QUESTION">QUESTION</option>
         </select>
+        <select #sortByRef (change)="sortBy = sortByRef.value; applyFilters()">
+            <option value="dateAdded">Ordina per: Data creazione</option>
+            <option value="deadline">Ordina per: Scadenza</option>
+            <option value="priority">Ordina per: Priorità</option>
+            <option value="status">Ordina per: Stato</option>
+            <option value="title">Ordina per: Titolo</option>
+        </select>
+        <select #sortDirRef (change)="sortDir = sortDirRef.value; applyFilters()">
+            <option value="desc">↓ Decrescente</option>
+            <option value="asc">↑ Crescente</option>
+        </select>
         <label>
             <input type="checkbox" #mineRef (change)="filterMine = mineRef.checked; applyFilters()" />
             Solo i miei ticket
         </label>
-        <button (click)="resetFilters(statusRef, priorityRef, typeRef)" class="btn-logout">Reset</button>
+        <button (click)="resetFilters(statusRef, priorityRef, typeRef, sortByRef, sortDirRef)"
+            class="btn-logout">Reset</button>
     </div>
     <div class="table-wrapper">
         <table class="issue-table">

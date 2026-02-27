@@ -17,6 +17,8 @@ export class IssueService {
         if (filters.status) params = params.set('status', filters.status);
         if (filters.priority) params = params.set('priority', filters.priority);
         if (filters.type) params = params.set('type', filters.type);
+        if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
+        if (filters.sortDir) params = params.set('sortDir', filters.sortDir);
         return this.http.get<Issue[]>(this.apiUrl, { params });
     }
     // GET /api/issues/{id}
