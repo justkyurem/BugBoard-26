@@ -61,8 +61,8 @@
             </div>
         </div>
 
-        <!-- Sezione Modifica (Req 4, 6, 18) -->
-        <div class="edit-section">
+        <!-- Sezione Modifica (Req 4, 6, 18) - visibile solo ad ADMIN o all'utente assegnatario -->
+        <div class="edit-section" *ngIf="isAdmin || issue.assigneeId === currentUserId">
             <h3>Modifica Issue</h3>
 
             <!-- Cambio Stato (Req 6) - visibile a tutti -->

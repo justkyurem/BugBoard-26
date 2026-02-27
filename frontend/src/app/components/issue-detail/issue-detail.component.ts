@@ -20,6 +20,7 @@ export class IssueDetailComponent implements OnInit {
     error: string | null = null;
     saveSuccess: boolean = false;
     isAdmin: boolean = localStorage.getItem('role') === 'ADMIN';
+    currentUserId: number = Number(localStorage.getItem('userID'));
 
     constructor(
         private route: ActivatedRoute,
