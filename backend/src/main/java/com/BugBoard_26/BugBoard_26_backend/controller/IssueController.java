@@ -2,7 +2,9 @@ package com.BugBoard_26.BugBoard_26_backend.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import com.BugBoard_26.BugBoard_26_backend.dto.IssueDTO;
 import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
 import com.BugBoard_26.BugBoard_26_backend.model.Priority;
 import com.BugBoard_26.BugBoard_26_backend.model.Status;
+import com.BugBoard_26.BugBoard_26_backend.model.User;
 import com.BugBoard_26.BugBoard_26_backend.service.IssueService;
 
 import lombok.RequiredArgsConstructor;
@@ -58,7 +61,23 @@ public class IssueController {
     // RF - 6: Aggiorna issue
     // PUT /api/issues/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<IssueDTO> updateIssue(@PathVariable Long id, @RequestBody IssueDTO issueDTO) {
+    public ResponseEntity<IssueDTO> updateIssue(
+            @PathVariable Long id,
+            @RequestBody IssueDTO issueDTO,
+            Authentication authentication) {
+
+        User currentUser = (User) authentication.getPrincipal();
+        boolean isAdmin = currentUser.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        // Se non è admin, può modificare solo le issue assegnate a lui
+        if (!isAdmin) {
+            IssueDTO existing = issueService.getIssueById(id);
+            if (!currentUser.getId().equals(existing.getAssigneeId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }
+
         return ResponseEntity.ok(issueService.updateIssue(id, issueDTO));
     }
 
