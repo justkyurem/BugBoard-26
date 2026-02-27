@@ -40,14 +40,17 @@ public class IssueController {
         return ResponseEntity.ok(issueService.getIssueById(id));
     }
 
-    // RF - 3: Ottenimento lista issue con filtri opzionali
-    // GET /api/issues?status=TODO&priority=HIGH&type=BUG
+    // RF - 3: Ottenimento lista issue con filtri opzionali + ordinamento
+    // GET
+    // /api/issues?status=TODO&priority=HIGH&type=BUG&sortBy=dateAdded&sortDir=desc
     @GetMapping
     public ResponseEntity<List<IssueDTO>> getAllIssues(
             @RequestParam(required = false) Status status,
             @RequestParam(required = false) Priority priority,
-            @RequestParam(required = false) IssueType type) {
-        List<IssueDTO> issues = issueService.getIssuesFiltered(status, priority, type);
+            @RequestParam(required = false) IssueType type,
+            @RequestParam(required = false, defaultValue = "dateAdded") String sortBy,
+            @RequestParam(required = false, defaultValue = "desc") String sortDir) {
+        List<IssueDTO> issues = issueService.getIssuesFiltered(status, priority, type, sortBy, sortDir);
         return ResponseEntity.ok(issues);
     }
 

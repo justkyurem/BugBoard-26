@@ -1,6 +1,7 @@
 package com.BugBoard_26.BugBoard_26_backend.repository;
 
 import com.BugBoard_26.BugBoard_26_backend.model.Issue;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import com.BugBoard_26.BugBoard_26_backend.model.Status;
@@ -26,7 +27,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
             @Param("title") String title,
             @Param("description") String description);
 
-    // Req 3: Filtri opzionali
+    // Req 3: Filtri opzionali + ordinamento dinamico
     @Query("SELECT i FROM Issue i WHERE " +
             "(:status IS NULL OR i.status = :status) AND " +
             "(:priority IS NULL OR i.priority = :priority) AND " +
@@ -34,5 +35,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     List<Issue> findByFilters(
             @Param("status") Status status,
             @Param("priority") Priority priority,
-            @Param("type") IssueType type);
+            @Param("type") IssueType type,
+            Sort sort);
 }
