@@ -1,6 +1,6 @@
 <div class="login-container">
     <div class="login-card">
-        <h2>Accedi a BugBoard</h2>
+        <h2>🔐 Accedi a BugBoard</h2>
 
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
             <div class="form-group">
@@ -12,15 +12,15 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" [(ngModel)]="loginData.password" required
-                    placeholder="Inserisci la password">
+                    placeholder="Inserisci la tua password">
             </div>
 
             <div *ngIf="errorMessage" class="error-message">
-                {{ errorMessage }}
+                ⚠️ {{ errorMessage }}
             </div>
 
             <button type="submit" [disabled]="!loginForm.form.valid || loading" class="btn-primary">
-                {{ loading ? 'Accesso in corso...' : 'Accedi' }}
+                {{ loading ? '⏳ Accesso in corso...' : 'Accedi' }}
             </button>
         </form>
     </div>

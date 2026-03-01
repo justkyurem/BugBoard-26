@@ -1,23 +1,31 @@
 <div class="detail-container">
     <div *ngIf="loading" class="loading-state">
-        Caricamento in corso...
+        ⏳ Caricamento in corso...
     </div>
 
     <div *ngIf="error" class="error-state">
-        {{ error }}
-        <button routerLink="/issue-board" class="btn-back">Torna alla Dashboard</button>
+        <p>⚠️ {{ error }}</p>
+        <button routerLink="/issue-board" class="btn-back" style="margin-top: 1rem;">Torna alla Dashboard</button>
     </div>
 
     <div *ngIf="issue" class="issue-content">
+
         <div class="header-actions">
-            <button routerLink="/issue-board" class="btn-back">← Torna alla Board</button>
+            <button routerLink="/issue-board" class="btn-back">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Torna alla Board
+            </button>
             <div class="actions" *ngIf="isAdmin">
-                <button class="btn-edit" [routerLink]="['/edit', issue.id]">Modifica</button>
+                <button class="btn-edit" [routerLink]="['/edit', issue.id]">✏️ Modifica Dettagli</button>
             </div>
         </div>
 
         <div class="issue-header">
-            <span class="issue-id">#{{ issue.id }}</span>
+            <span class="issue-id">ISSUE-{{ issue.id }}</span>
             <h1>{{ issue.title }}</h1>
         </div>
 
@@ -28,88 +36,95 @@
         </div>
 
         <div class="issue-body">
+
             <div class="main-info">
-                <h3>Descrizione</h3>
-                <p class="description">{{ issue.description }}</p>
+                <div class="card-panel">
+                    <h3>Descrizione</h3>
+                    <p class="description">{{ issue.description }}</p>
 
-                <div *ngIf="issue.imageUrl" class="attachment-section">
-                    <h3>Allegati</h3>
-                    <img [src]="issue.imageUrl" alt="Allegato Issue" class="issue-image">
+                    <div *ngIf="issue.imageUrl" class="attachment-section">
+                        <h3>Allegati</h3>
+                        <img [src]="issue.imageUrl" alt="Allegato Issue" class="issue-image">
+                    </div>
                 </div>
             </div>
 
-            <div class="side-info">
-                <div class="info-group">
-                    <label>Assegnato a</label>
-                    <span *ngIf="issue.assigneeId">{{ issue.assigneeFullName }}</span>
-                    <span *ngIf="!issue.assigneeId">Non assegnato</span>
+            <div class="sidebar-wrapper">
+
+                <div class="side-info card-panel">
+                    <div class="info-group">
+                        <label>Assegnato a</label>
+                        <span *ngIf="issue.assigneeId">👤 {{ issue.assigneeFullName }}</span>
+                        <span *ngIf="!issue.assigneeId" style="color: #9ca3af; font-style: italic;">Non assegnato</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Segnalato da</label>
+                        <span *ngIf="issue.reporterId">{{ issue.reporterFullName }}</span>
+                        <span *ngIf="!issue.reporterId" style="color: #9ca3af; font-style: italic;">Anonimo</span>
+                    </div>
+                    <div class="info-group">
+                        <label>Scadenza</label>
+                        <span [class.overdue]="false">
+                            {{ issue.deadline ? (issue.deadline | date:'medium') : 'Nessuna scadenza' }}
+                        </span>
+                    </div>
+                    <div class="info-group">
+                        <label>Creato il</label>
+                        <span>{{ issue.dateAdded | date:'medium' }}</span>
+                    </div>
                 </div>
-                <div class="info-group">
-                    <label>Segnalato da</label>
-                    <span *ngIf="issue.reporterId">{{ issue.reporterFullName }}</span>
-                    <span *ngIf="!issue.reporterId">Anonimo</span>
-                </div>
-                <div class="info-group">
-                    <label>Scadenza</label>
-                    <span [class.overdue]="false">{{ issue.deadline ? (issue.deadline | date:'medium') : 'Nessuna
-                        scadenza' }}</span>
-                </div>
-                <div class="info-group">
-                    <label>Creato il</label>
-                    <span>{{ issue.dateAdded | date:'medium' }}</span>
+
+                <div class="edit-section card-panel" *ngIf="isAdmin || issue.assigneeId === currentUserId">
+                    <h3>Gestione Issue</h3>
+
+                    <div class="form-group">
+                        <label>Aggiorna Stato</label>
+                        <select #statusEditRef>
+                            <option value="TODO" [selected]="issue.status === 'TODO'">TODO</option>
+                            <option value="IN_PROGRESS" [selected]="issue.status === 'IN_PROGRESS'">IN PROGRESS</option>
+                            <option value="DONE" [selected]="issue.status === 'DONE'">DONE</option>
+                            <option value="DUPLICATE" [selected]="issue.status === 'DUPLICATE'">DUPLICATE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" [hidden]="!isAdmin">
+                        <label>Assegna a</label>
+                        <select #assigneeRef>
+                            <option value="">Nessuno</option>
+                            <option *ngFor="let u of usersList" [value]="u.id" [selected]="issue.assigneeId === u.id">
+                                {{ u.name }} {{ u.surname }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" [hidden]="!isAdmin">
+                        <label>Scadenza</label>
+                        <input type="datetime-local" #deadlineRef
+                            [value]="issue.deadline ? (issue.deadline | date:'yyyy-MM-ddTHH:mm') : ''" />
+                    </div>
+
+                    <ng-container *ngIf="isAdmin; else devSave">
+                        <button class="btn-save"
+                            (click)="saveChanges(statusEditRef.value, assigneeRef.value, deadlineRef.value)">
+                            💾 Salva Modifiche
+                        </button>
+                    </ng-container>
+                    <ng-template #devSave>
+                        <button class="btn-save" (click)="saveChanges(statusEditRef.value, '', '')">
+                            🔄 Aggiorna Stato
+                        </button>
+                    </ng-template>
+
+                    <div *ngIf="saveSuccess" class="success-text">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                            </path>
+                        </svg>
+                        Salvato con successo!
+                    </div>
                 </div>
             </div>
+
         </div>
-
-        <!-- Sezione Modifica (Req 4, 6, 18) - visibile solo ad ADMIN o all'utente assegnatario -->
-        <div class="edit-section" *ngIf="isAdmin || issue.assigneeId === currentUserId">
-            <h3>Modifica Issue</h3>
-
-            <!-- Cambio Stato (Req 6) - visibile a tutti -->
-            <div class="form-group">
-                <label>Stato</label>
-                <select #statusEditRef>
-                    <option value="TODO" [selected]="issue.status === 'TODO'">TODO</option>
-                    <option value="IN_PROGRESS" [selected]="issue.status === 'IN_PROGRESS'">IN PROGRESS</option>
-                    <option value="DONE" [selected]="issue.status === 'DONE'">DONE</option>
-                    <option value="DUPLICATE" [selected]="issue.status === 'DUPLICATE'">DUPLICATE</option>
-                </select>
-            </div>
-
-            <!-- Assegnazione Utente (Req 4) - solo ADMIN (nascosto con [hidden] per mantenere il ref nel DOM) -->
-            <div class="form-group" [hidden]="!isAdmin">
-                <label>Assegna a</label>
-                <select #assigneeRef>
-                    <option value="">Nessuno</option>
-                    <option *ngFor="let u of usersList" [value]="u.id" [selected]="issue.assigneeId === u.id">
-                        {{ u.name }} {{ u.surname }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Scadenza (Req 18) - solo ADMIN (nascosto con [hidden] per mantenere il ref nel DOM) -->
-            <div class="form-group" [hidden]="!isAdmin">
-                <label>Scadenza</label>
-                <input type="datetime-local" #deadlineRef
-                    [value]="issue.deadline ? (issue.deadline | date:'yyyy-MM-ddTHH:mm') : ''" />
-            </div>
-
-            <!-- Salva: admin passa tutti i campi, developer solo lo stato -->
-            <ng-container *ngIf="isAdmin; else devSave">
-                <button class="btn-save"
-                    (click)="saveChanges(statusEditRef.value, assigneeRef.value, deadlineRef.value)">
-                    Salva Modifiche
-                </button>
-            </ng-container>
-            <ng-template #devSave>
-                <button class="btn-save" (click)="saveChanges(statusEditRef.value, '', '')">
-                    Aggiorna Stato
-                </button>
-            </ng-template>
-            <span *ngIf="saveSuccess" style="color: green; margin-left: 12px;">✓ Salvato!</span>
-        </div>
-
-
     </div>
-
 </div>

@@ -1,193 +1,271 @@
-/* Layout */
+/* --- BASE & TYPOGRAPHY --- */
 .board-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
 }
 
 .board-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-logout {
-    background-color: #cbd5e1;
-    color: #334155;
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.btn-logout:hover {
-    background-color: #94a3b8;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #374151;
 }
 
 .board-header h1 {
-    font-size: 24px;
-    color: #1f2937;
+    font-size: 2rem;
+    color: #04396e;
     font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
 }
 
-/* Bottoni */
+/* --- BOTTONI HEADER --- */
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.btn-user-management {
+    background-color: #8b5cf6;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.btn-user-management:hover { background-color: #7c3aed; }
+
+.btn-logout {
+    background-color: transparent;
+    color: #9ca3af;
+    border: 1px solid #4b5563;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: #374151;
+    color: #f3f4f6;
+}
+
 .btn-create {
     background-color: #2563eb;
     color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     font-weight: 500;
     text-decoration: none;
+    transition: background 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
 }
 
-.btn-create:hover {
-    background-color: #1d4ed8;
+.btn-create:hover { background-color: #1d4ed8; }
+
+/* --- BARRA DEI FILTRI --- */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    background: #1f2937;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #374151;
+    align-items: center;
 }
 
-.btn-edit {
-    color: #4f46e5;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
+.filters-bar select,
+.filters-bar input[type="text"] {
+    background-color: #111827;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    outline: none;
+    min-width: 140px;
 }
 
-.btn-delete {
-    color: #dc2626;
-    background: none;
-    border: none;
-    cursor: pointer;
+.filters-bar select:focus,
+.filters-bar input[type="text"]:focus {
+    border-color: #3b82f6;
 }
 
-.btn-users {
-    background: #FF9800;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
+.filters-bar input[type="text"] {
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.btn-search {
+    background-color: #374151;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
+    font-size: 0.85rem;
+    transition: background 0.2s;
 }
 
-.btn-users:hover {
-    background: #F57C00;
+.btn-search:hover { background-color: #4b5563; }
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #d1d5db;
+    cursor: pointer;
+    user-select: none;
 }
 
-/* Tabella */
+.btn-reset {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #7f1d1d;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-reset:hover {
+    background: #450a0a;
+}
+
+/* --- TABELLA --- */
 .table-wrapper {
-    background: white;
-    border-radius: 8px;
+    background: #1f2937;
+    border-radius: 12px;
+    border: 1px solid #374151;
+    overflow-x: auto;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 .issue-table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.issue-table th {
-    background-color: #f9fafb;
-    color: #6b7280;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 12px 24px;
     text-align: left;
 }
 
+.issue-table th {
+    background-color: #111827;
+    color: #9ca3af;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #374151;
+}
+
 .issue-table td {
-    padding: 16px 24px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #374151;
+    vertical-align: middle;
 }
 
-.issue-table tr:hover {
-    background-color: #f9fafb;
+.issue-table tbody tr {
+    transition: background-color 0.15s ease;
 }
 
-/* Testi */
+.issue-table tbody tr:hover {
+    background-color: #374151;
+}
+
+.issue-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- CELLE TABELLA --- */
 .col-id {
-    color: #6b7280;
-    font-size: 14px;
+    color: #8b5cf6;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
 .issue-title {
-    font-weight: 600;
-    color: #111827;
-}
-
-.issue-desc {
-    color: #6b7280;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 300px;
-}
-
-/* Badge Generico */
-.badge {
-    padding: 4px 10px;
-    border-radius: 9999px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-/* Colori Priorità */
-.badge-high {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
-.badge-medium {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-.badge-low {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
-.badge-default {
-    background-color: #f3f4f6;
-    color: #374151;
-}
-
-/* Colori Stato */
-.status-todo {
-    background-color: #dbeafe;
-    color: #1e40af;
-}
-
-.status-progress {
-    background-color: #f3e8ff;
-    color: #6b21a8;
-}
-
-.status-resolved {
-    background-color: #dcfce7;
-    color: #166534;
+    margin-bottom: 0.25rem;
 }
 
 .title-link {
-    color: #111827;
+    color: #f9fafb;
+    font-weight: 600;
     text-decoration: none;
-    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
 }
 
 .title-link:hover {
-    text-decoration: underline;
-    color: #2563eb;
+    color: #60a5fa;
 }
+
+.issue-desc {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+}
+
+/* --- BADGES (Stesso stile della pagina dettaglio) --- */
+.badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* Stili coerenti con detail-component */
+.badge-open, .status-todo { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-progress, .status-progress { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-resolved, .status-resolved, .badge-done { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-closed, .badge-duplicate { background-color: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid rgba(107, 114, 128, 0.3); }
+
+.badge-critical, .badge-high { background-color: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.badge-medium { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-low { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+/* --- BOTTONI AZIONE TABELLA --- */
+.col-actions {
+    white-space: nowrap;
+}
+
+.btn-action {
+    background: transparent;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 0.75rem;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.btn-action.edit { color: #60a5fa; }
+.btn-action.edit:hover { color: #93c5fd; }
+
+.btn-action.delete { color: #ef4444; }
+.btn-action.delete:hover { color: #f87171; }
+
+.btn-action.view { color: #a78bfa; }
+.btn-action.view:hover { color: #c4b5fd; }

@@ -1,14 +1,15 @@
 <div class="board-container">
+
     <div class="board-header">
         <h1>Issue Board</h1>
         <div class="actions">
-            <a *ngIf="isAdmin" routerLink="/user" class="btn-user-management">Gestione Utenti</a>
+            <a *ngIf="isAdmin" routerLink="/user" class="btn-user-management">👥 Gestione Utenti</a>
             <button (click)="logout()" class="btn-logout">Logout</button>
-            <button routerLink="/create-issue" class="btn-create">+ Nuova Issue</button>
+            <button routerLink="/create-issue" class="btn-create">➕ Nuova Issue</button>
         </div>
     </div>
-    <!-- FILTRI -->
-    <div class="filters">
+
+    <div class="filters-bar">
         <select #statusRef (change)="filterStatus = statusRef.value; applyFilters()">
             <option value="">Tutti gli stati</option>
             <option value="TODO">TODO</option>
@@ -16,6 +17,7 @@
             <option value="DONE">DONE</option>
             <option value="DUPLICATE">DUPLICATE</option>
         </select>
+
         <select #priorityRef (change)="filterPriority = priorityRef.value; applyFilters()">
             <option value="">Tutte le priorità</option>
             <option value="LOW">LOW</option>
@@ -23,9 +25,7 @@
             <option value="HIGH">HIGH</option>
             <option value="CRITICAL">CRITICAL</option>
         </select>
-        <input type="text" #searchRef placeholder="Cerca per parole chiave..."
-            (keydown.enter)="onSearch(searchRef.value)" />
-        <button (click)="onSearch(searchRef.value)">Cerca</button>
+
         <select #typeRef (change)="filterType = typeRef.value; applyFilters()">
             <option value="">Tutti i tipi</option>
             <option value="BUG">BUG</option>
@@ -33,30 +33,40 @@
             <option value="DOCUMENTATION">DOCUMENTATION</option>
             <option value="QUESTION">QUESTION</option>
         </select>
+
+        <input type="text" #searchRef placeholder="Cerca per parola chiave..."
+            (keydown.enter)="onSearch(searchRef.value)" />
+        <button class="btn-search" (click)="onSearch(searchRef.value)">🔍 Cerca</button>
+
         <select #sortByRef (change)="sortBy = sortByRef.value; applyFilters()">
-            <option value="dateAdded">Ordina per: Data creazione</option>
-            <option value="deadline">Ordina per: Scadenza</option>
-            <option value="priority">Ordina per: Priorità</option>
-            <option value="status">Ordina per: Stato</option>
-            <option value="title">Ordina per: Titolo</option>
+            <option value="dateAdded">Ordina: Data Creazione</option>
+            <option value="deadline">Ordina: Scadenza</option>
+            <option value="priority">Ordina: Priorità</option>
+            <option value="status">Ordina: Stato</option>
+            <option value="title">Ordina: Titolo</option>
         </select>
+
         <select #sortDirRef (change)="sortDir = sortDirRef.value; applyFilters()">
             <option value="desc">↓ Decrescente</option>
             <option value="asc">↑ Crescente</option>
         </select>
-        <label>
+
+        <label class="checkbox-label">
             <input type="checkbox" #mineRef (change)="filterMine = mineRef.checked; applyFilters()" />
             Solo i miei ticket
         </label>
-        <button (click)="resetFilters(statusRef, priorityRef, typeRef, sortByRef, sortDirRef)"
-            class="btn-logout">Reset</button>
+
+        <button (click)="resetFilters(statusRef, priorityRef, typeRef, sortByRef, sortDirRef)" class="btn-reset">
+            ✖ Reset
+        </button>
     </div>
+
     <div class="table-wrapper">
         <table class="issue-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Titolo</th>
+                    <th>Titolo & Descrizione</th>
                     <th>Stato</th>
                     <th>Priorità</th>
                     <th>Azioni</th>
@@ -82,12 +92,15 @@
                         </span>
                     </td>
                     <td class="col-actions">
-                        <button *ngIf="isAdmin" class="btn-edit" [routerLink]="['/edit', issue.id]">Modifica</button>
-                        <button *ngIf="isAdmin" class="btn-delete" (click)="deleteIssue(issue.id)">Elimina</button>
-                        <a *ngIf="!isAdmin" [routerLink]="['/issue', issue.id]" class="btn-edit">Visualizza</a>
+                        <button *ngIf="isAdmin" class="btn-action edit"
+                            [routerLink]="['/edit', issue.id]">Modifica</button>
+                        <button *ngIf="isAdmin" class="btn-action delete"
+                            (click)="deleteIssue(issue.id)">Elimina</button>
+                        <a *ngIf="!isAdmin" [routerLink]="['/issue', issue.id]" class="btn-action view">Visualizza</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
 </div>

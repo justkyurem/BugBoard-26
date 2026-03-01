@@ -1,84 +1,123 @@
+/* --- CONTAINER & CARD --- */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    background-color: #f3f4f6;
+    background-color: transparent;
+    /* Lasciamo che prenda lo sfondo scuro globale dell'app */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .login-card {
-    background: white;
-    padding: 2.5rem;
+    background: #1f2937;
+    padding: 2.5rem 3rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #374151;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
 }
 
+/* --- TYPOGRAPHY --- */
 h2 {
-    color: #111827;
+    color: #f9fafb;
     text-align: center;
+    margin-top: 0;
     margin-bottom: 2rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
+/* --- FORM GROUPS & LABELS --- */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
 label {
     display: block;
+    font-size: 0.85rem;
+    color: #9ca3af;
     margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #374151;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
+/* --- INPUTS --- */
 input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: all 0.2s;
+    padding: 0.85rem 1rem;
+    background-color: #111827;
+    /* Input scurissimi per dare profondità */
+    border: 1px solid #4b5563;
+    color: #f3f4f6;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
     box-sizing: border-box;
-    /* Importante per il padding */
+    font-family: inherit;
 }
 
 input:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
+input::placeholder {
+    color: #6b7280;
+}
+
+/* --- BUTTON --- */
 .btn-primary {
     width: 100%;
     background-color: #2563eb;
     color: white;
-    padding: 0.75rem;
+    padding: 0.85rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease, transform 0.1s;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    margin-top: 0.5rem;
 }
 
-.btn-primary:hover {
+.btn-primary:not(:disabled):hover {
     background-color: #1d4ed8;
 }
 
-.btn-primary:disabled {
-    background-color: #93c5fd;
-    cursor: not-allowed;
+.btn-primary:not(:disabled):active {
+    transform: scale(0.98);
 }
 
+.btn-primary:disabled {
+    background-color: #1e3a8a;
+    color: #6b7280;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* --- ERROR MESSAGE --- */
 .error-message {
-    background-color: #fee2e2;
-    color: #991b1b;
-    padding: 0.75rem;
-    border-radius: 6px;
+    background-color: #450a0a;
+    color: #ef4444;
+    padding: 0.85rem;
+    border-radius: 8px;
+    border: 1px solid #7f1d1d;
     margin-bottom: 1.5rem;
     font-size: 0.875rem;
+    font-weight: 500;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }

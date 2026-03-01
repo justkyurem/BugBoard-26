@@ -1,74 +1,162 @@
+/* --- BASE & CONTAINER --- */
 .create-container {
-    max-width: 600px;
+    max-width: 650px;
     margin: 40px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
+    padding: 2.5rem;
+    background: #1f2937;
+    /* Sfondo scuro in linea con le card */
+    border-radius: 12px;
+    border: 1px solid #374151;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #d1d5db;
 }
 
 h1 {
-    margin-bottom: 20px;
-    color: #1f2937;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #f9fafb;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
+/* --- FORM GROUPS & LABELS --- */
 .form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #4b5563;
-}
-
-input,
-textarea,
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 14px;
+    margin-bottom: 1.5rem;
 }
 
 .row {
     display: flex;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .row .form-group {
     flex: 1;
 }
 
+label {
+    display: block;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- INPUTS, TEXTAREA, SELECT --- */
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background-color: #111827;
+    /* Sfondo molto scuro per gli input */
+    border: 1px solid #4b5563;
+    color: #f3f4f6;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Stato Focus */
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Stile speciale per l'input File nel Dark Mode */
+input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #111827;
+    border: 1px dashed #4b5563;
+    color: #9ca3af;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #374151;
+    color: #f3f4f6;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-right: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #4b5563;
+}
+
+/* --- BOTTONI AZIONE --- */
 .actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #374151;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: #9ca3af;
+    border: 1px solid #4b5563;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #374151;
+    color: #f3f4f6;
 }
 
 .btn-submit {
     background-color: #2563eb;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-submit:not(:disabled):hover {
+    background-color: #1d4ed8;
+}
+
+.btn-submit:not(:disabled):active {
+    transform: scale(0.98);
 }
 
 .btn-submit:disabled {
-    background-color: #93c5fd;
+    background-color: #1e3a8a;
+    /* Blu scuro desaturato */
+    color: #6b7280;
     cursor: not-allowed;
-}
-
-.btn-cancel {
-    background-color: #e5e7eb;
-    color: #374151;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
+    box-shadow: none;
 }
