@@ -1,0 +1,4 @@
+<button class="bell-btn" (click)="goToNotifications()" title="Notifiche">
+    🔔
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+</button>

@@ -1,0 +1,22 @@
+<div class="notifications-container">
+    <div class="header">
+        <h2>Le mie notifiche</h2>
+        <button class="btn-read-all" (click)="markAllAsRead()" *ngIf="notifications.length > 0">
+            Segna tutte come lette
+        </button>
+    </div>
+
+    <div *ngIf="notifications.length === 0" class="empty-state">
+        Nessuna notifica per ora!!
+    </div>
+
+    <ul class="notification-list">
+        <li *ngFor="let n of notifications" class="notification-item" [class.unread]="!n.read" (click)="markAsRead(n)">
+            <span class="dot" *ngIf="!n.read">●</span>
+            <div class="content">
+                <p class="message">{{ n.message }}</p>
+                <span class="date">{{ n.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+        </li>
+    </ul>
+</div>
