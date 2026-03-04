@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users") // ATTENZIONE: "users" a volte è parola riservata in SQL. Se hai errori, usa "app_users".
+@Table(name = "app_users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
