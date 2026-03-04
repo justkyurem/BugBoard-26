@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
 import { Issue, Status, Priority } from '../../models/issue.model';
+import { NotificationBellComponent } from '../notification-bell/notification-bell.component';
 @Component({
   selector: 'app-issue-board',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NotificationBellComponent],
   templateUrl: './issue-board.component.html',
   styleUrls: ['./issue-board.component.css']
 })

@@ -4,6 +4,7 @@
         <h1>Issue Board</h1>
         <div class="actions">
             <a *ngIf="isAdmin" routerLink="/user" class="btn-user-management">👥 Gestione Utenti</a>
+            <app-notification-bell></app-notification-bell>
             <button (click)="logout()" class="btn-logout">Logout</button>
             <button routerLink="/create-issue" class="btn-create">➕ Nuova Issue</button>
         </div>
