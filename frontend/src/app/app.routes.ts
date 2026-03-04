@@ -5,6 +5,7 @@ import { IssueDetailComponent } from './components/issue-detail/issue-detail.com
 import { LoginComponent } from './components/login/login.component';
 import { AdminGuard } from './guards/admin.guard';
 import { UserManagementComponent } from './components/user-management/user-management.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 export const routes: Routes = [
     {
@@ -24,5 +25,8 @@ export const routes: Routes = [
     },
     {
         path: 'user', component: UserManagementComponent, canActivate: [AdminGuard]
+    },
+    {
+        path: 'notifications', component: NotificationsComponent
     }
 ];
