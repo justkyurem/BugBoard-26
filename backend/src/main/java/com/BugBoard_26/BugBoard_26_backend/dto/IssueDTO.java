@@ -6,13 +6,22 @@ import com.BugBoard_26.BugBoard_26_backend.model.IssueType;
 import com.BugBoard_26.BugBoard_26_backend.model.Priority;
 import com.BugBoard_26.BugBoard_26_backend.model.Status;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import lombok.Data;
 
 @Data // Lombok genera automaticamente i metodi getter e setter
 public class IssueDTO {
 
     private Long id;
+
+    @NotBlank(message = "Il titolo è obbligatorio")
+    @Size(max = 100, message = "Il titolo non può superare i 100 caratteri")
     private String title;
+
+    @NotBlank(message = "La descrizione è obbligatoria")
+    @Size(max = 1000, message = "La descrizione non può superare i 1000 caratteri")
     private String description;
     private Priority priority;
     private Status status;

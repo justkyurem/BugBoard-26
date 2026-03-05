@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,7 +58,7 @@ public class IssueController {
     // RF - 2: Creazione issue
     // POST /api/issues
     @PostMapping
-    public ResponseEntity<IssueDTO> createIssue(@RequestBody IssueDTO issueDTO) {
+    public ResponseEntity<IssueDTO> createIssue(@Valid @RequestBody IssueDTO issueDTO) {
         return ResponseEntity.ok(issueService.createIssue(issueDTO));
     }
 
@@ -66,7 +67,7 @@ public class IssueController {
     @PutMapping("/{id}")
     public ResponseEntity<IssueDTO> updateIssue(
             @PathVariable Long id,
-            @RequestBody IssueDTO issueDTO,
+            @Valid @RequestBody IssueDTO issueDTO,
             Authentication authentication) {
 
         User currentUser = (User) authentication.getPrincipal();
