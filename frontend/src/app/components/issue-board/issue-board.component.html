@@ -3,10 +3,37 @@
     <div class="board-header">
         <h1>Issue Board</h1>
         <div class="actions">
-            <a *ngIf="isAdmin" routerLink="/user" class="btn-user-management">👥 Gestione Utenti</a>
-            <app-notification-bell></app-notification-bell>
-            <button (click)="logout()" class="btn-logout">Logout</button>
-            <button routerLink="/create-issue" class="btn-create">➕ Nuova Issue</button>
+        <a *ngIf="isAdmin" routerLink="/user" class="btn-user-management">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Gestione Utenti
+        </a>
+
+        <app-notification-bell></app-notification-bell>
+
+        <button (click)="logout()" class="btn-logout">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Logout
+        </button>
+
+        <button routerLink="/create-issue" class="btn-create">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Nuova Issue
+        </button>
         </div>
     </div>
 
@@ -37,7 +64,14 @@
 
         <input type="text" #searchRef placeholder="Cerca per parola chiave..."
             (keydown.enter)="onSearch(searchRef.value)" />
-        <button class="btn-search" (click)="onSearch(searchRef.value)">🔍 Cerca</button>
+        <button class="btn-search" (click)="onSearch(searchRef.value)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Cerca
+        </button>
 
         <select #sortByRef (change)="sortBy = sortByRef.value; applyFilters()">
             <option value="dateAdded">Ordina: Data Creazione</option>
@@ -58,7 +92,12 @@
         </label>
 
         <button (click)="resetFilters(statusRef, priorityRef, typeRef, sortByRef, sortDirRef)" class="btn-reset">
-            ✖ Reset
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Reset
         </button>
     </div>
 

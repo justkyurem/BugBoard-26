@@ -1,3 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+/* 1. RESET SFONDI E SPAZIATURE */
+html,
+body {
+    background-color: #161616 !important;
+    /* Forza il buio totale */
+    margin: 0;
+    padding: 0;
+}
 
-@import "tailwindcss";
+.board-container {
+    background: transparent !important;
+}
+
+/* Toglie quella riga bianca fastidiosa che si vede nell'header */
+.board-header {
+    background: transparent !important;
+    border-bottom: 1px solid #3e3e3e;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+/* 2. FILTRI ORIZZONTALI (Il problema principale delle foto) */
+.filters-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    /* Forza la riga */
+    flex-wrap: wrap;
+    /* Se lo schermo è piccolo, scende */
+    align-items: center;
+    gap: 12px;
+    padding: 1rem;
+    background: #1c1c1c !important;
+    border: 1px solid #3e3e3e;
+    border-radius: 4px;
+}
+
+/* Evitiamo che i select diventino giganti */
+.filters-bar select,
+.filters-bar input[type="text"] {
+    width: auto !important;
+    min-width: 140px;
+    height: 38px;
+    margin-bottom: 0 !important;
+    /* Toglie lo spazio verticale delle foto */
+}
+
+/* Il campo di ricerca può allungarsi */
+.filters-bar input[type="text"] {
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+/* 3. FIX CHECKBOX E RESET */
+.checkbox-label {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    /* Evita che il testo vada a capo */
+    color: #8b8d91;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: none;
+    /* Toglie il maiuscolo strano delle foto */
+}
+
+.checkbox-label input {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.btn-reset {
+    margin-left: auto;
+    /* Spinge il tasto reset a destra se c'è spazio */
+}
+
+/* 4. TABELLA PULITA */
+.table-wrapper {
+    margin-top: 1rem;
+    border: 1px solid #3e3e3e;
+    background: #1c1c1c;
+}
+
+.issue-table th {
+    background: #262626;
+    color: #8b8d91;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 12px;
+}
