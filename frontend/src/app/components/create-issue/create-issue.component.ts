@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
 import { Issue, Priority, Status, IssueType } from '../../models/issue.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-create-issue',
@@ -30,7 +31,8 @@ export class CreateIssueComponent {
 
   constructor(
     private issueService: IssueService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) { }
 
   onFileSelected(event: any): void {
@@ -55,7 +57,7 @@ export class CreateIssueComponent {
         },
         error: (err) => {
           console.error('Errore caricamento file', err);
-          alert('Errore caricamento file');
+          this.toastService.show('Errore durante il caricamento dell\'allegato', 'error');
         }
       });
     } else {
@@ -66,12 +68,12 @@ export class CreateIssueComponent {
   private saveIssue(): void {
     this.issueService.createIssue(this.issue).subscribe({
       next: () => {
-        alert('Ticket creato con successo!');
+        this.toastService.show('Ticket creato con successo!', 'success');
         this.router.navigate(['/issue-board']);
       },
       error: (err) => {
         console.error('Errore creazione ticket', err);
-        alert('Errore creazione ticket');
+        this.toastService.show('Errore durante la creazione del ticket', 'error');
       }
     });
   }

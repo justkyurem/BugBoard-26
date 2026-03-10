@@ -5,6 +5,7 @@ import { IssueService } from '../../services/issue.service';
 import { UserService } from '../../services/user.service';
 import { Issue } from '../../models/issue.model';
 import { User } from '../../models/user.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
     selector: 'app-issue-detail',
@@ -26,7 +27,8 @@ export class IssueDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private issueService: IssueService,
         private userService: UserService,
-        private cdRef: ChangeDetectorRef
+        private cdRef: ChangeDetectorRef,
+        private toastService: ToastService
     ) { }
 
     ngOnInit(): void {
@@ -80,13 +82,14 @@ export class IssueDetailComponent implements OnInit {
             next: (data) => {
                 this.issue = data;
                 this.saveSuccess = true;
+                this.toastService.show('Ticket salvato con successo', 'success');
                 this.cdRef.detectChanges();
                 // Nascondi il messaggio di successo dopo 3 secondi
                 setTimeout(() => { this.saveSuccess = false; this.cdRef.detectChanges(); }, 3000);
             },
             error: (err) => {
                 console.error('Errore nel salvataggio', err);
-                alert('Errore nel salvataggio. Riprova.');
+                this.toastService.show('Errore nel salvataggio. Riprova.', 'error');
             }
         });
     }
