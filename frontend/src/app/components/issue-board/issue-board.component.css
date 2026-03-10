@@ -21,6 +21,14 @@
     color: #ffffff;
     margin: 0;
     letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.header-logo {
+    height: 90px;
+    width: auto;
+    display: block;
+    border-radius: 4px;
 }
 
 .actions {
@@ -186,32 +194,109 @@
 }
 
 .badge {
-    padding: 0.15rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    border: 1px solid transparent;
+    letter-spacing: 0.05em;
+    display: inline-block;
 }
 
-.badge-open {
-    color: #58a6ff;
-    border-color: #388bfd66;
-}
-
-.badge-progress {
-    color: #d29922;
-    border-color: #bb800966;
-}
-
-.badge-resolved {
-    color: #3fb950;
-    border-color: #23863666;
+/* Priority Badges */
+.badge-critical {
+    background-color: rgba(248, 81, 73, 0.15);
+    color: #f85149;
+    border: 1px solid rgba(248, 81, 73, 0.4);
 }
 
 .badge-high {
+    background-color: rgba(255, 123, 114, 0.15);
+    color: #ff7b72;
+    border: 1px solid rgba(255, 123, 114, 0.4);
+}
+
+.badge-medium {
+    background-color: rgba(210, 168, 255, 0.15);
+    color: #d2a8ff;
+    border: 1px solid rgba(210, 168, 255, 0.4);
+}
+
+.badge-low {
+    background-color: rgba(88, 166, 255, 0.15);
+    color: #58a6ff;
+    border: 1px solid rgba(88, 166, 255, 0.4);
+}
+
+/* Status Badges */
+.status-todo {
+    background-color: rgba(139, 148, 158, 0.15);
+    color: #8b949e;
+    border: 1px solid rgba(139, 148, 158, 0.4);
+}
+
+.status-progress {
+    background-color: rgba(210, 168, 255, 0.15);
+    color: #d2a8ff;
+    border: 1px solid rgba(210, 168, 255, 0.4);
+}
+
+.status-done {
+    background-color: rgba(63, 185, 80, 0.15);
+    color: #3fb950;
+    border: 1px solid rgba(63, 185, 80, 0.4);
+}
+
+.status-duplicate {
+    background-color: rgba(248, 81, 73, 0.15);
     color: #f85149;
-    border-color: #da363366;
+    border: 1px solid rgba(248, 81, 73, 0.4);
+}
+
+.badge-default,
+.status-default {
+    background-color: rgba(48, 54, 61, 0.5);
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+}
+
+/* Responsive Table Wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: #1c1c1c;
+    border: 1px dashed #3e3e3e;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.empty-state svg {
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.empty-state p {
+    color: #8b8d91;
+    font-size: 0.9rem;
+    max-width: 400px;
+    margin: 0;
 }
 
 .btn-action {

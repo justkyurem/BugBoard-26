@@ -4,10 +4,13 @@ import { RouterModule, Router } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
 import { Issue, Status, Priority } from '../../models/issue.model';
 import { NotificationBellComponent } from '../notification-bell/notification-bell.component';
+import { ConfirmModal } from '../confirm-modal/confirm-modal';
+import { ToastService } from '../../services/toast.service';
+
 @Component({
   selector: 'app-issue-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, NotificationBellComponent],
+  imports: [CommonModule, RouterModule, NotificationBellComponent, ConfirmModal],
   templateUrl: './issue-board.component.html',
   styleUrls: ['./issue-board.component.css']
 })
@@ -15,11 +18,13 @@ export class IssueBoardComponent implements OnInit {
   issues: Issue[] = [];
   status = Status;
   isAdmin: boolean = localStorage.getItem('role') === 'ADMIN';
+  isLoading: boolean = true;
 
   constructor(
     private issueService: IssueService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastService: ToastService
   ) { }
 
   logout(): void {
@@ -41,22 +46,59 @@ export class IssueBoardComponent implements OnInit {
   ngOnInit(): void {
     this.loadIssues();
   }
+
   loadIssues(): void {
+    this.isLoading = true;
     this.issueService.getAllIssues().subscribe({
       next: (data) => {
         this.issues = data;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        console.error('Error:', err);
+        this.isLoading = false;
+        this.toastService.show('Errore nel caricamento dei ticket', 'error');
+      }
     });
   }
-  deleteIssue(id: number | undefined): void {
+
+  showConfirmDelete: boolean = false;
+  issueToDelete: number | null = null;
+
+  promptDeleteIssue(id: number | undefined): void {
     if (!id) return;
-    if (confirm('Eliminare questo ticket?')) {
-      this.issueService.deleteIssue(id).subscribe(() => this.loadIssues());
-    }
+    this.issueToDelete = id;
+    this.showConfirmDelete = true;
+  }
+
+  confirmDelete(): void {
+    if (!this.issueToDelete) return;
+    this.issueService.deleteIssue(this.issueToDelete).subscribe({
+      next: () => {
+        this.showConfirmDelete = false;
+        this.issueToDelete = null;
+        this.toastService.show('Ticket eliminato con successo', 'success');
+        this.loadIssues();
+      },
+      error: (err) => {
+        console.error(err);
+        this.showConfirmDelete = false;
+        this.toastService.show('Errore durante l\'eliminazione del ticket', 'error');
+      }
+    });
+  }
+
+  cancelDelete(): void {
+    this.showConfirmDelete = false;
+    this.issueToDelete = null;
+  }
+
+  deleteIssue(id: number | undefined): void {
+    this.promptDeleteIssue(id);
   }
   applyFilters(): void {
+    this.isLoading = true;
     const params: any = {};
     if (this.filterStatus) params['status'] = this.filterStatus;
     if (this.filterPriority) params['priority'] = this.filterPriority;
@@ -68,9 +110,14 @@ export class IssueBoardComponent implements OnInit {
         this.issues = this.filterMine
           ? data.filter(i => i.assigneeId === Number(localStorage.getItem('userID')))
           : data;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Filter Error:', err)
+      error: (err) => {
+        console.error('Filter Error:', err);
+        this.isLoading = false;
+        this.toastService.show('Errore durante il filtraggio', 'error');
+      }
     });
   }
   resetFilters(statusEl: HTMLSelectElement, priorityEl: HTMLSelectElement, typeEl: HTMLSelectElement,
@@ -110,12 +157,18 @@ export class IssueBoardComponent implements OnInit {
       this.loadIssues();
       return;
     }
+    this.isLoading = true;
     this.issueService.searchIssues(keyword).subscribe({
       next: (data) => {
         this.issues = data;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err)
+        this.isLoading = false;
+        this.toastService.show('Errore durante la ricerca', 'error');
+      }
     })
   }
 }
