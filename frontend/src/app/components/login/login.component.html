@@ -1,6 +1,9 @@
 <div class="login-container">
     <div class="login-card">
-        <h2>Accedi a BugBoard</h2>
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="BugBoard26 Logo" class="login-logo">
+        </div>
+        <h2>Accedi a BugBoard26</h2>
 
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
             <div class="form-group">
@@ -16,7 +19,7 @@
             </div>
 
             <div *ngIf="errorMessage" class="error-message">
-                 {{ errorMessage }}
+                {{ errorMessage }}
             </div>
 
             <button type="submit" [disabled]="!loginForm.form.valid || loading" class="btn-primary">

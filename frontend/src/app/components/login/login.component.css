@@ -6,6 +6,17 @@
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
+.logo-container {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-logo {
+    width: 220px;
+    height: auto;
+    border-radius: 8px;
+}
+
 .login-card {
     background: #1c1c1c;
     padding: 2.5rem;
