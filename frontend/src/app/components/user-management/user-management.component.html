@@ -5,7 +5,12 @@
   </div>
 
   <div class="table-wrapper">
-    <table class="user-table">
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Caricamento utenti in corso...</p>
+    </div>
+
+    <table class="user-table" *ngIf="!isLoading">
       <thead>
         <tr>
           <th>ID</th>
@@ -28,8 +33,20 @@
             </span>
           </td>
           <td class="actions">
-            <button class="btn-edit" (click)="openEditForm(user)">Modifica</button>
-            <button class="btn-delete" (click)="deleteUser(user.id)">Elimina</button>
+            <button class="btn-action edit" (click)="openEditForm(user)" title="Modifica">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            <button class="btn-action delete" (click)="deleteUser(user.id)" title="Elimina">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -58,8 +75,7 @@
         </div>
         <div class="form-group">
           <label>Password{{ isEditMode ? ' (lascia vuoto per non modificare)' : '' }}:</label>
-          <input type="password" [(ngModel)]="userForm.password" name="password" 
-                 [required]="!isEditMode">
+          <input type="password" [(ngModel)]="userForm.password" name="password" [required]="!isEditMode">
         </div>
         <div class="form-group">
           <label>Ruolo:</label>
@@ -76,3 +92,8 @@
     </div>
   </div>
 </div>
+
+<app-confirm-modal *ngIf="showConfirmDelete" title="Elimina Utente"
+  message="Sei sicuro di voler eliminare questo utente? L'operazione non può essere annullata."
+  confirmText="Sì, elimina" cancelText="Annulla" (confirm)="confirmDelete()" (cancel)="cancelDelete()">
+</app-confirm-modal>

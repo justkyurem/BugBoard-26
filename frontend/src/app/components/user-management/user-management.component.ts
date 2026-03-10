@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User, Role, UserDTO } from '../../models/user.model';
+import { ConfirmModal } from '../confirm-modal/confirm-modal';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
     selector: 'app-user-management',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, ConfirmModal],
     templateUrl: './user-management.component.html',
     styleUrls: ['./user-management.component.css']
 })
@@ -25,20 +27,33 @@ export class UserManagementComponent implements OnInit {
     };
 
     Role = Role; // Per accedere all'enum nel template
+    isLoading: boolean = true;
+    showConfirmDelete: boolean = false;
+    userToDelete: number | null = null;
 
-    constructor(private userService: UserService, private cdRef: ChangeDetectorRef) { }
+    constructor(
+        private userService: UserService,
+        private cdRef: ChangeDetectorRef,
+        private toastService: ToastService
+    ) { }
 
     ngOnInit(): void {
         this.loadUsers();
     }
 
     loadUsers(): void {
+        this.isLoading = true;
         this.userService.getUsers().subscribe({
             next: (data) => {
                 this.users = data;
+                this.isLoading = false;
                 this.cdRef.detectChanges();
             },
-            error: (err) => console.error('Errore nel caricamento utenti:', err)
+            error: (err) => {
+                console.error('Errore nel caricamento utenti:', err);
+                this.isLoading = false;
+                this.toastService.show('Errore nel caricamento utenti', 'error');
+            }
         });
     }
 
@@ -81,32 +96,61 @@ export class UserManagementComponent implements OnInit {
             // Modifica
             this.userService.updateUser(this.currentUserID, this.userForm).subscribe({
                 next: () => {
+                    this.toastService.show('Utente modificato con successo', 'success');
                     this.loadUsers();
                     this.closeForm();
                 },
-                error: (err) => console.error('Errore nella modifica utente:', err)
+                error: (err) => {
+                    console.error('Errore nella modifica utente:', err);
+                    this.toastService.show('Errore nella modifica utente', 'error');
+                }
             });
         } else {
             // Creazione
             this.userService.createUser(this.userForm).subscribe({
                 next: () => {
+                    this.toastService.show('Utente creato con successo', 'success');
                     this.loadUsers();
                     this.closeForm();
                 },
-                error: (err) => console.error('Errore nella creazione utente:', err)
+                error: (err) => {
+                    console.error('Errore nella creazione utente:', err);
+                    this.toastService.show('Errore nella creazione utente', 'error');
+                }
             });
         }
     }
 
-    deleteUser(id: number | undefined): void {
-        if (id) {
-            if (confirm('Sei sicuro di voler eliminare questo utente?')) {
-                this.userService.deleteUser(id).subscribe({
-                    next: () => this.loadUsers(),
-                    error: (err) => console.error('Errore nell\'eliminazione utente:', err)
-                });
+    promptDeleteUser(id: number | undefined): void {
+        if (!id) return;
+        this.userToDelete = id;
+        this.showConfirmDelete = true;
+    }
+
+    confirmDelete(): void {
+        if (!this.userToDelete) return;
+        this.userService.deleteUser(this.userToDelete).subscribe({
+            next: () => {
+                this.toastService.show('Utente eliminato con successo', 'success');
+                this.showConfirmDelete = false;
+                this.userToDelete = null;
+                this.loadUsers();
+            },
+            error: (err) => {
+                console.error('Errore nell\'eliminazione utente:', err);
+                this.showConfirmDelete = false;
+                this.toastService.show('Errore durante l\'eliminazione', 'error');
             }
-        }
+        });
+    }
+
+    cancelDelete(): void {
+        this.showConfirmDelete = false;
+        this.userToDelete = null;
+    }
+
+    deleteUser(id: number | undefined): void {
+        this.promptDeleteUser(id);
     }
 
 }

@@ -97,21 +97,27 @@
   gap: 1rem;
 }
 
-.btn-edit,
-.btn-delete {
-  background: none;
-  border: none;
+.btn-action {
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 0.4rem;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-edit {
-  color: #7566f0;
+.btn-action:hover {
+  background-color: #30363d;
+  color: #ffffff;
 }
 
-.btn-delete {
+.btn-action.delete:hover {
+  background-color: rgba(248, 81, 73, 0.1);
+  border-color: #f85149;
   color: #f85149;
 }
 
