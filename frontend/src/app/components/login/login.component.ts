@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { NotificationService } from '../../services/notification.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -19,7 +19,11 @@ export class LoginComponent {
   errorMessage: string = '';
   loading: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   onSubmit() {
     this.loading = true;
@@ -33,7 +37,12 @@ export class LoginComponent {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userID', response.userId);
           localStorage.setItem('role', response.role);
+
           this.loading = false;
+
+          // Forza l'aggiornamento del counter delle notifiche per il componente Header/Bell
+          this.notificationService.notifyUpdate();
+
           this.router.navigate(['/issue-board']);
         },
         error: (error) => {

@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { IssueService } from '../../services/issue.service';
 import { Issue, Priority, Status, IssueType } from '../../models/issue.model';
 import { ToastService } from '../../services/toast.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-create-issue',
@@ -32,7 +33,8 @@ export class CreateIssueComponent {
   constructor(
     private issueService: IssueService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private notificationService: NotificationService
   ) { }
 
   onFileSelected(event: any): void {
@@ -69,6 +71,7 @@ export class CreateIssueComponent {
     this.issueService.createIssue(this.issue).subscribe({
       next: () => {
         this.toastService.show('Ticket creato con successo!', 'success');
+        this.notificationService.notifyUpdate();
         this.router.navigate(['/issue-board']);
       },
       error: (err) => {
