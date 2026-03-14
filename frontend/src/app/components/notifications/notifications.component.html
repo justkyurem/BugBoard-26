@@ -10,9 +10,15 @@
 
     <div class="header">
         <h2>Le mie notifiche</h2>
-        <button class="btn-read-all" (click)="markAllAsRead()" *ngIf="notifications.length > 0">
-            Segna tutte come lette
-        </button>
+        <div class="header-actions-right">
+            <button class="btn-read-all" (click)="markAllAsRead()" *ngIf="hasUnread">
+                Segna tutte come lette
+            </button>
+            <button class="btn-delete-all" (click)="promptDeleteAll()"
+                *ngIf="notifications && notifications.length > 0">
+                Elimina notifiche
+            </button>
+        </div>
     </div>
 
     <div *ngIf="notifications.length === 0" class="empty-state">
@@ -28,4 +34,9 @@
             </div>
         </li>
     </ul>
+
+    <app-confirm-modal *ngIf="showConfirmDelete" title="Elimina Notifiche"
+        message="Sei sicuro di voler eliminare tutte le tue notifiche? L'operazione non può essere annullata."
+        confirmText="Sì, elimina" cancelText="Annulla" (confirm)="confirmDeleteAll()" (cancel)="cancelDeleteAll()">
+    </app-confirm-modal>
 </div>

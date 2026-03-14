@@ -41,6 +41,11 @@
     margin: 0;
 }
 
+.header-actions-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
 .btn-read-all {
     background: #3e3e3e;
     color: #dcddde;
@@ -56,6 +61,24 @@
 .btn-read-all:hover {
     background: #4a4a4a;
     color: #ffffff;
+}
+
+.btn-delete-all {
+    background: #2a1a1a;
+    color: #ff6b6b;
+    border: 1px solid #662222;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.1s ease;
+}
+
+.btn-delete-all:hover {
+    background: #ff6b6b;
+    color: #ffffff;
+    border-color: #ff6b6b;
 }
 
 .empty-state {
