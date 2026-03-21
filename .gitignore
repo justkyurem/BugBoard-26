@@ -17,3 +17,7 @@ uploads/
 
 # DB
 backend/data/
+
+# --- Segreti e variabili d'ambiente ---
+.env
+

@@ -48,7 +48,6 @@ public class AuthService {
         extraClaims.put("role", user.getRole().name());
         var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
-        // --- 2. CORREZIONE QUI: Usa "new", non ".builder()" ---
         return new AuthResponse(jwtToken, user.getId(), user.getRole().name());
     }
 
@@ -66,7 +65,6 @@ public class AuthService {
         extraClaims.put("role", user.getRole().name());
         var jwtToken = jwtUtils.generateToken(extraClaims, user);
 
-        // --- 3. CORREZIONE QUI: Usa "new", non ".builder()" ---
         return new AuthResponse(jwtToken, user.getId(), user.getRole().name());
     }
 }
