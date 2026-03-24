@@ -54,6 +54,7 @@ class JwtAuthenticationFilterTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 
+        utenteMock = new User("mario.rossi", "password123", new ArrayList<>());
 
         SecurityContextHolder.clearContext();
     }
