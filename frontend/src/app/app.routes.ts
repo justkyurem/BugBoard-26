@@ -9,7 +9,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'issue-board', pathMatch: 'full'
+        path: '', redirectTo: 'login', pathMatch: 'full'
     },
     {
         path: 'issue-board', component: IssueBoardComponent
