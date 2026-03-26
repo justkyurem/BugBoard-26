@@ -3,20 +3,18 @@ package com.BugBoard_26.BugBoard_26_backend.service;
 import com.BugBoard_26.BugBoard_26_backend.dto.RegisterRequest;
 import com.BugBoard_26.BugBoard_26_backend.model.User;
 import com.BugBoard_26.BugBoard_26_backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

@@ -3,7 +3,7 @@ package com.BugBoard_26.BugBoard_26_backend.controller;
 import com.BugBoard_26.BugBoard_26_backend.dto.RegisterRequest;
 import com.BugBoard_26.BugBoard_26_backend.model.User;
 import com.BugBoard_26.BugBoard_26_backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     // GET /api/users - Ottini tutti gli utenti (SOLO ADMIN)
     @GetMapping
