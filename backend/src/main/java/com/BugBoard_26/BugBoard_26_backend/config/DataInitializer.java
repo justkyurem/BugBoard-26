@@ -4,6 +4,7 @@ import com.BugBoard_26.BugBoard_26_backend.model.Role;
 import com.BugBoard_26.BugBoard_26_backend.model.User;
 import com.BugBoard_26.BugBoard_26_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -33,7 +35,7 @@ public class DataInitializer implements CommandLineRunner {
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRole(Role.ADMIN);
             userRepository.save(admin);
-            System.out.println("Utente ADMIN creato: admin@bugboard.com");
+            log.info("Utente ADMIN creato: admin@bugboard.com");
         }
 
         // Se non c'è l'utente standard, crealo
@@ -45,7 +47,7 @@ public class DataInitializer implements CommandLineRunner {
             dev.setPassword(passwordEncoder.encode(devPassword));
             dev.setRole(Role.STANDARD);
             userRepository.save(dev);
-            System.out.println("Utente STANDARD creato: dev@bugboard.com");
+            log.info("Utente STANDARD creato: dev@bugboard.com");
         }
     }
 }
