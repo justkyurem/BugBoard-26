@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
@@ -43,11 +45,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtUtils.extractUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("Processing authentication for: " + userEmail);
+            log.info("Processing authentication for: {}", userEmail);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             if (jwtUtils.isTokenValid(jwt, userDetails)) {
-                System.out.println("Token is valid!");
+                log.info("Token is valid!");
                 // Crea l'oggetto di autenticazione
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -60,10 +62,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 6. REGISTRA L'UTENTE COME AUTENTICATO PER QUESTA RICHIESTA
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
-                System.out.println("Token is INVALID!");
+                log.info("Token is INVALID!");
             }
         } else {
-            System.out.println("UserEmail null or Context already set. Email: " + userEmail);
+            log.info("UserEmail null or Context already set. Email: {}", userEmail);
         }
 
         // Passa la palla al prossimo filtro della catena
