@@ -31,6 +31,9 @@
           },
           "configurations": {
             "production": {
+              "define": {
+                "__API_BASE_URL__": "\"https://bugboard-26.onrender.com/api\""
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -43,6 +46,12 @@
                   "maximumError": "8kB"
                 }
               ],
+              "outputHashing": "all"
+            },
+            "local": {
+              "define": {
+                "__API_BASE_URL__": "\"http://localhost:8080/api\""
+              },
               "outputHashing": "all"
             },
             "development": {

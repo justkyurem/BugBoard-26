@@ -34,7 +34,10 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        BUILD_MODE: local
     container_name: bugboard_frontend
     ports:
       - "80:80"

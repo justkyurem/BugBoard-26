@@ -1,6 +1,8 @@
 # Stage 1: Compilazione dell'applicazione Angular
 # Usa l'immagine ufficiale di Node.js basata su Alpine Linux (leggera)
 FROM node:22-alpine AS builder
+# Argomento passato da Docker: "local" per docker-compose locale, "production" per Render/Vercel
+ARG BUILD_MODE=local
 # Imposta la cartella di lavoro all'interno del container
 WORKDIR /app
 # Copia i file package.json e package-lock.json per l'installazione delle dipendenze
@@ -9,8 +11,8 @@ COPY package*.json ./
 RUN npm ci
 # Copia tutto il resto del codice sorgente nel container
 COPY . .
-# Esegue la build di produzione dell'applicazione Angular
-RUN npm run build
+# Esegue la build con la configurazione passata (local = localhost:8080, production = Render URL)
+RUN npm run build -- --configuration $BUILD_MODE
 
 # Stage 2: Configurazione del server per servire i file (Nginx)
 # Usa l'immagine ufficiale di Nginx basata su Alpine Linux
