@@ -56,7 +56,7 @@
             },
             "server": {
               "define": {
-                "__API_BASE_URL__": "\"http://bugboard.prizm.it/api\""
+                "__API_BASE_URL__": "\"https://bugboard.prizm.it/api\""
               },
               "outputHashing": "all"
             },
