@@ -50,7 +50,7 @@
             },
             "local": {
               "define": {
-                "__API_BASE_URL__": "\"http://localhost:8080/api\""
+                "__API_BASE_URL__": "\"http://bugboard.prizm.it/api\""
               },
               "outputHashing": "all"
             },

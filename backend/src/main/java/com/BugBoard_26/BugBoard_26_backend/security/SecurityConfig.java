@@ -58,8 +58,7 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost", "https://bug-board-26.vercel.app",
-                "http://localhost:8080"));
+        config.setAllowedOrigins(List.of("http://localhost", "http://bugboard.prizm.it", "http://localhost:4200", "http://bugboard.prizm.it:8080"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
