@@ -5,11 +5,12 @@ import { UserService } from '../../services/user.service';
 import { User, Role, UserDTO } from '../../models/user.model';
 import { ConfirmModal } from '../confirm-modal/confirm-modal';
 import { ToastService } from '../../services/toast.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-user-management',
     standalone: true,
-    imports: [CommonModule, FormsModule, ConfirmModal],
+    imports: [CommonModule, FormsModule, ConfirmModal, RouterModule],
     templateUrl: './user-management.component.html',
     styleUrls: ['./user-management.component.css']
 })
