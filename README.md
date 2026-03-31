@@ -30,26 +30,6 @@ docker compose down
 
 ---
 
-## Avvio in Sviluppo (Senza Docker Frontend/Backend)
-
-Se vuoi modificare il codice e avere l'hot-reload:
-
-1. Avvia solo il database:
-   ```bash
-   docker compose up -d postgres
-   ```
-2. Avvia il backend in un terminale:
-   ```bash
-   cd backend && mvn spring-boot:run
-   ```
-3. Avvia il frontend in un altro terminale:
-   ```bash
-   cd frontend && npm start
-   ```
-   (il frontend sarà disponibile su http://localhost:4200)
-
----
-
 ## Struttura del progetto
 
 ```
